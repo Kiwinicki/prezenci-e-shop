@@ -10,8 +10,8 @@ function App() {
 	let theme = createTheme({
 		palette: {
 			primary: {
-				main: '#c33a3a'
-			}
+				main: '#c33a3a',
+			},
 		},
 	});
 	theme = responsiveFontSizes(theme);

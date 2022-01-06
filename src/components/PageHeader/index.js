@@ -6,6 +6,7 @@ import Logo from '../Logo';
 
 const PageHeader = () => {
 	return (
+		// TODO: header chowa się przy scrollu w dół i pokazuje gdy do góry
 		<AppBar>
 			<Toolbar sx={{ justifyContent: 'space-between' }}>
 				<Logo />
