@@ -1,25 +1,39 @@
-import { AppBar, Toolbar, IconButton, Box } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Box, styled, useScrollTrigger, Slide } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
-import SearchIcon from '@mui/icons-material/Search';
 
 import Logo from '../Logo';
+import SearchBar from './SearchBar';
+
+const HideOnScroll = ({ children }) => {
+	const trigger = useScrollTrigger();
+
+	return (
+		<Slide appear={false} direction="down" in={!trigger}>
+			{children}
+		</Slide>
+	);
+};
 
 const PageHeader = () => {
+	const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
+
 	return (
-		// TODO: header chowa się przy scrollu w dół i pokazuje gdy do góry
-		<AppBar>
-			<Toolbar sx={{ justifyContent: 'space-between' }}>
-				<Logo />
-				<Box>
-					<IconButton size="large" color="inherit" aria-label="konto">
-						<PersonIcon />
-					</IconButton>
-					<IconButton size="large" color="inherit" aria-label="szukaj">
-						<SearchIcon />
-					</IconButton>
-				</Box>
-			</Toolbar>
-		</AppBar>
+		<>
+			<HideOnScroll>
+				<AppBar>
+					<Toolbar sx={{ gap: '10px' }}>
+						<Logo />
+						<Box flexGrow={1} />
+						<SearchBar />
+						{/* TODO: dodać mechanikę szukania przez search bar */}
+						<IconButton size="large" color="inherit" aria-label="konto">
+							<PersonIcon />
+						</IconButton>
+					</Toolbar>
+				</AppBar>
+			</HideOnScroll>
+			<Offset />
+		</>
 	);
 };
 

@@ -1,8 +1,9 @@
-import { Link, Typography } from '@mui/material';
+import { Link, Typography, useMediaQuery } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import LogoSVG from '../assets/logo.svg';
 
 const Logo = () => {
+	const matches = useMediaQuery('(min-width:381px)');
 	return (
 		<Link
 			component={RouterLink}
@@ -18,9 +19,11 @@ const Logo = () => {
 			}}
 		>
 			<img src={LogoSVG} alt="logo Prezencik.pl" width={50} height={50} />
-			<Typography component="h1" variant="h5" sx={{ color: 'white', fontWeight: 'bold', fontStyle: 'italic' }}>
-				Prezencik.pl
-			</Typography>
+			{matches && (
+				<Typography component="h1" sx={{ color: 'white', fontWeight: 'bold', fontStyle: 'italic', fontSize: { xs: '18px', sm: '26px' } }}>
+					Prezencik.pl
+				</Typography>
+			)}
 		</Link>
 	);
 };

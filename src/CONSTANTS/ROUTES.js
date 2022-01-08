@@ -7,6 +7,7 @@ import CategoriesList from '../pages/CategoriesList/index';
 import Category from '../pages/Category/index';
 import Product from '../pages/Product/index';
 import Admin from '../pages/Admin/index';
+import PrivacyPolicy from '../pages/PrivacyPolicy/index';
 import NoMatch from '../pages/NoMatch';
 
 // creates category route with index page - product list and products in this category
@@ -31,6 +32,7 @@ const ROUTES = [
 			},
 			...categoriesRoutesArr,
 			{ path: '/login', element: <Login /> },
+			{ path: '/polityka-prywatnosci', element: <PrivacyPolicy /> },
 			{ path: '/admin', element: <Admin /> },
 			{ path: '*', element: <NoMatch /> },
 		],
