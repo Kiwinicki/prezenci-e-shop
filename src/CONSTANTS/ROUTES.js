@@ -11,6 +11,7 @@ import PrivacyPolicy from '../pages/PrivacyPolicy/index';
 import NoMatch from '../pages/NoMatch';
 
 // creates category route with index page - product list and products in this category
+// TODO: getting categories from firebase
 const categoriesRoutesArr = Object.entries(CATEGORIES).map((cat) => ({
 	path: cat.path,
 	children: [
@@ -31,6 +32,7 @@ const ROUTES = [
 				element: <CategoriesList />,
 			},
 			...categoriesRoutesArr,
+			// TODO: strona /promocje i argumenty przekazywane w URL?
 			{ path: '/login', element: <Login /> },
 			{ path: '/polityka-prywatnosci', element: <PrivacyPolicy /> },
 			{ path: '/admin', element: <Admin /> },

@@ -5,7 +5,7 @@ const PageFooter = () => {
 	return (
 		<Box component="footer" sx={{ bgcolor: 'primary.main', color: 'primary.contrastText' }}>
 			<Grid container spacing={2} sx={{ justifyContent: 'center', textAlign: 'center', py: '16px' }}>
-				<Grid item xs="12" sm="6" md="4">
+				<Grid item xs={12} sm={6}>
 					<Box marginBottom={2}>
 						<Link component={RouterLink} to="/login" color="inherit" underline="hover">
 							Zaloguj/Zarejestruj się
@@ -22,7 +22,7 @@ const PageFooter = () => {
 						</Link>
 					</Box>
 				</Grid>
-				<Grid item xs="12" sm="6" md="4" sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+				<Grid item xs={12} sm={6} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 					<Box>
 						<Typography>Prezencik.pl &copy;{new Date().getFullYear().toString()}</Typography>
 					</Box>

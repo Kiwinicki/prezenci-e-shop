@@ -47,6 +47,7 @@ const AdminPage = () => {
 				<FormControl>
 					<InputLabel id="category-select-label">Category:</InputLabel>
 					<Select {...register('category-select')} labelId="category-select-label" label="Category:">
+						{/* TODO: getting categories list from firebase */}
 						{CATEGORIES.map((cat) => (
 							<MenuItem value={cat.key} key={cat.key}>
 								{cat.name}

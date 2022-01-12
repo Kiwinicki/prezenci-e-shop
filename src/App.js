@@ -12,6 +12,10 @@ function App() {
 			primary: {
 				main: '#c33a3a',
 			},
+			background: {
+				default: '#f5f5f5',
+				paper: '#fff',
+			},
 		},
 	});
 	theme = responsiveFontSizes(theme);
