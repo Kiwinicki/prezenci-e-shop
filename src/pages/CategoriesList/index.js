@@ -1,13 +1,14 @@
-import CATEGORIES from '../../CONSTANTS/CATEGORIES';
+// import CATEGORIES from '../../CONSTANTS/CATEGORIES';
 
 const CategoriesList = () => {
 	return (
 		<>
 			<p>categories list</p>
 			<ul>
-				{CATEGORIES.map((cat) => (
+				<li>tu powinna się pojawić lista kategorii z reduxa</li>
+				{/* {CATEGORIES.map((cat) => (
 					<li key={cat.key}>{cat.name}</li>
-				))}
+				))} */}
 			</ul>
 		</>
 	);

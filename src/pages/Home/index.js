@@ -2,24 +2,34 @@ import { useEffect, useLayoutEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import { getDocs, collection, onSnapshot } from '@firebase/firestore';
 import { Grid, Box, Typography, Button, Card, CardMedia, CardContent, Stack, Paper, List, ListItem, ListItemButton, Divider, Link, ListItemText, Container, styled } from '@mui/material';
+import { useDispatch, useSelector } from 'react-redux';
 
 // firebase config
-import { db } from '../../firebase-config';
+// import { db } from '../../firebase-config';
 
 // components
 import Carousel from '../../components/Carousel';
 import ProductCard from '../../components/ProductCard';
 import Logo from '../../assets/logo.svg';
 import HeroSection from './HeroSection';
+import Loader from '../../components/Loader';
 
 // hooks
-import useCollection from '../../hooks/useCollection';
+// import useCollection from '../../hooks/useCollection';
+
+// redux stuff
+import { getData, getCategoriesList } from '../../features/Categories';
 
 const HomePage = () => {
-	// TODO: move data to redux
-	let categories = useCollection({ collectionName: 'categories' }); // optional argument: queryConditions: { filterField: 'key', condition: '==', value: 'PILLOWS' }
+	// let categories = useCollection({ collectionName: 'categories' }); // optional argument: queryConditions: { filterField: 'key', condition: '==', value: 'PILLOWS' }
 
-	console.log(categories);
+	const categoriesList = useSelector((state) => state.categories.value);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(getCategoriesList());
+	}, []);
 
 	return (
 		<Grid container>
@@ -40,14 +50,14 @@ const HomePage = () => {
 			<Grid item xs={12}>
 				<SectionHeading>Kategorie</SectionHeading>
 				<List sx={{ width: '100%' }}>
-					{categories.length ? (
-						categories.map(({ path, name, key }) => (
-							<ListItem key={key} disableGutters divider button component={RouterLink} to={path}>
+					{categoriesList.length ? (
+						categoriesList.map(({ path, name, key }) => (
+							<ListItem key={key} disableGutters divider button component={RouterLink} to={`/${path}`}>
 								<Typography sx={{ width: '100vw', textAlign: 'center' }}>{name}</Typography>
 							</ListItem>
 						))
 					) : (
-						<p>loading</p>
+						<Loader />
 					)}
 				</List>
 			</Grid>

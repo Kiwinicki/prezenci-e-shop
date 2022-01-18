@@ -1,26 +1,13 @@
-import CATEGORIES from './CATEGORIES';
-
+// components (pages)
 import Layout from '../pages/Layout/index';
 import Home from '../pages/Home/index';
 import Login from '../pages/Login/index';
 import CategoriesList from '../pages/CategoriesList/index';
-import Category from '../pages/Category/index';
-import Product from '../pages/Product/index';
 import Admin from '../pages/Admin/index';
 import PrivacyPolicy from '../pages/PrivacyPolicy/index';
 import NoMatch from '../pages/NoMatch';
 
-// creates category route with index page - product list and products in this category
-// TODO: getting categories from firebase
-const categoriesRoutesArr = Object.entries(CATEGORIES).map((cat) => ({
-	path: cat.path,
-	children: [
-		{ index: true, element: <Category category={cat.key} /> },
-		{ path: `/${cat.path}/:productId`, element: <Product /> },
-	],
-}));
-
-// all routes array needed for creating routes witch useRoutes() hook
+// routes array (without categories pathes) needed for creating routes witch useRoutes() hook
 const ROUTES = [
 	{
 		path: '/',
@@ -31,8 +18,6 @@ const ROUTES = [
 				path: '/kategorie',
 				element: <CategoriesList />,
 			},
-			...categoriesRoutesArr,
-			// TODO: strona /promocje i argumenty przekazywane w URL?
 			{ path: '/login', element: <Login /> },
 			{ path: '/polityka-prywatnosci', element: <PrivacyPolicy /> },
 			{ path: '/admin', element: <Admin /> },

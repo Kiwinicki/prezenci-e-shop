@@ -1,5 +1,10 @@
+import { useLocation } from 'react-router';
+
 const Category = () => {
-	return <p>category</p>;
+	const location = useLocation();
+	console.log(location);
+
+	return <p>category {location.pathname}</p>;
 };
 
 export default Category;

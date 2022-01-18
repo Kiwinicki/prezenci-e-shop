@@ -1,11 +1,14 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 
-import CATEGORIES from '../../CONSTANTS/CATEGORIES';
+// import CATEGORIES from '../../CONSTANTS/CATEGORIES';
 
 import { Select, Typography, Box, TextField, MenuItem, InputLabel, FormControl, Button } from '@mui/material';
 
 const AdminPage = () => {
+	const categoriesArr = useSelector((state) => state.categories.value);
+
 	const [value, setValue] = useState({
 		'product-name': '',
 		'category-select': '',
@@ -17,11 +20,6 @@ const AdminPage = () => {
 			[e.target.name]: e.target.value,
 		}));
 	};
-
-	// const handleSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	console.log(value);
-	// };
 
 	const {
 		register,
@@ -47,8 +45,7 @@ const AdminPage = () => {
 				<FormControl>
 					<InputLabel id="category-select-label">Category:</InputLabel>
 					<Select {...register('category-select')} labelId="category-select-label" label="Category:">
-						{/* TODO: getting categories list from firebase */}
-						{CATEGORIES.map((cat) => (
+						{categoriesArr.map((cat) => (
 							<MenuItem value={cat.key} key={cat.key}>
 								{cat.name}
 							</MenuItem>

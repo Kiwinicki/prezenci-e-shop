@@ -1,11 +1,29 @@
 import { useRoutes } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+
+// components
+import Category from './pages/Category/index';
+import Product from './pages/Product/index';
+
+// CONSTANTS
 import ROUTES from './CONSTANTS/ROUTES';
 
-import CssBaseline from '@mui/material/CssBaseline';
-import { createTheme, responsiveFontSizes, ThemeProvider } from '@mui/material';
-
 function App() {
-	const element = useRoutes(ROUTES);
+	const categoriesArr = useSelector((state) => state.categories.value);
+
+	const categoriesRoutesArr = categoriesArr.map((cat) => ({
+		path: cat.path,
+		children: [
+			{ index: true, element: <Category category={cat.key} /> },
+			{ path: `/${cat.path}/:productId`, element: <Product /> },
+		],
+	}));
+
+	const allRoutes = [{ ...ROUTES[0], children: [...ROUTES[0].children, ...categoriesRoutesArr] }];
+
+	const currentComponent = useRoutes(allRoutes);
 
 	let theme = createTheme({
 		palette: {
@@ -24,7 +42,7 @@ function App() {
 		<>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				{element}
+				{currentComponent}
 			</ThemeProvider>
 		</>
 	);
