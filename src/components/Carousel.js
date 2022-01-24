@@ -16,7 +16,7 @@ const Carousel = ({ children }) => {
 
 	return (
 		<CarouselWrapper>
-			<IconButton aria-label="poprzedni" sx={{ position: 'absolute', left: '10px', zIndex: '1' }} onClick={moveBack}>
+			<IconButton aria-label="poprzedni" sx={{ position: 'absolute', left: '10px', zIndex: '1', bgcolor: 'rgba(0, 0, 0, 0.1)' }} onClick={moveBack}>
 				<ArrowBackIosNewIcon />
 			</IconButton>
 			<Box sx={{ overflow: 'hidden' }}>
@@ -24,7 +24,7 @@ const Carousel = ({ children }) => {
 					{children}
 				</CarouselItemsList>
 			</Box>
-			<IconButton aria-label="następny" sx={{ position: 'absolute', right: '10px', zIndex: '1' }} onClick={moveForward}>
+			<IconButton aria-label="następny" sx={{ position: 'absolute', right: '10px', zIndex: '1', bgcolor: 'rgba(0, 0, 0, 0.1)' }} onClick={moveForward}>
 				<ArrowForwardIosIcon />
 			</IconButton>
 		</CarouselWrapper>

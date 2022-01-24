@@ -21,5 +21,5 @@ export const db = getFirestore(app);
 export const prodRef = collection(db, 'products');
 export const catRef = collection(db, 'categories');
 
-//
+// init storage
 export const storage = getStorage(app);

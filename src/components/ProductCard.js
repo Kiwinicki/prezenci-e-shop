@@ -2,8 +2,8 @@ import { Card, CardMedia, CardContent } from '@mui/material';
 
 const ProductCard = ({ children, img, imgAlt = '' }) => {
 	return (
-		<Card variant="outlined">
-			<CardMedia component="img" src={img} alt={imgAlt} sx={{}} />
+		<Card elevation={0} square>
+			<CardMedia component="img" src={img} alt={imgAlt} />
 			<CardContent>{children}</CardContent>
 		</Card>
 	);

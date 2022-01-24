@@ -14,7 +14,7 @@ function App() {
 	const categoriesArr = useSelector((state) => state.categories.value);
 
 	const categoriesRoutesArr = categoriesArr.map((cat) => ({
-		path: cat.path,
+		path: `/${cat.path}`,
 		children: [
 			{ index: true, element: <Category category={cat.key} /> },
 			{ path: `/${cat.path}/:productId`, element: <Product /> },

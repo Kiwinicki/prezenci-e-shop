@@ -14,10 +14,8 @@ const ROUTES = [
 		element: <Layout />,
 		children: [
 			{ index: true, element: <Home /> },
-			{
-				path: '/kategorie',
-				element: <CategoriesList />,
-			},
+			{ path: '/kategorie', element: <CategoriesList /> },
+			// here will be categories paths
 			{ path: '/login', element: <Login /> },
 			{ path: '/polityka-prywatnosci', element: <PrivacyPolicy /> },
 			{ path: '/admin', element: <Admin /> },
