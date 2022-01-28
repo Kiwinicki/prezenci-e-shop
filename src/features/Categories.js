@@ -1,10 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { collection, query, onSnapshot } from 'firebase/firestore';
+import { createSlice } from "@reduxjs/toolkit";
+import { query, onSnapshot } from "firebase/firestore";
 
-import { db } from '../firebase-config';
+import { catRef, db } from "../firebase-config";
 
 export const categoriesSlice = createSlice({
-	name: 'categories',
+	name: "categories",
 	initialState: {
 		value: [],
 	},
@@ -18,9 +18,7 @@ export const categoriesSlice = createSlice({
 export const getCategoriesList = () => (dispatch) => {
 	let categoriesArr = [];
 
-	const collectionRef = collection(db, 'categories');
-
-	const q = query(collectionRef);
+	const q = query(catRef);
 
 	onSnapshot(q, (snapshot) => {
 		try {

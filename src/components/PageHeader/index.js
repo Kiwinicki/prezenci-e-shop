@@ -1,13 +1,22 @@
-import { AppBar, Toolbar, IconButton, Box, styled, useScrollTrigger, Slide, ClickAwayListener } from '@mui/material';
-import PersonIcon from '@mui/icons-material/Person';
+import {
+	AppBar,
+	Toolbar,
+	IconButton,
+	Box,
+	styled,
+	useScrollTrigger,
+	Slide,
+	ClickAwayListener,
+} from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
 
 // components
-import Logo from '../Logo';
-import SearchBar from './SearchBar';
-import AccountPopup from './AccountPopup';
+import Logo from "../Logo";
+import SearchBar from "./SearchBar";
+import AccountPopup from "./AccountPopup";
 
 // hooks
-import useToggle from '../../hooks/useToggle';
+import useToggle from "../../hooks/useToggle";
 
 const HideOnScroll = ({ children }) => {
 	const trigger = useScrollTrigger();
@@ -20,7 +29,7 @@ const HideOnScroll = ({ children }) => {
 };
 
 const PageHeader = () => {
-	const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
+	const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
 	const [isOpen, toggler] = useToggle(false);
 
@@ -28,7 +37,7 @@ const PageHeader = () => {
 		<>
 			<HideOnScroll>
 				<AppBar>
-					<Toolbar sx={{ gap: '10px' }}>
+					<Toolbar sx={{ gap: "10px" }}>
 						<Logo />
 						<Box flexGrow={1} />
 						{/* TODO: dodać mechanikę szukania przez search bar */}

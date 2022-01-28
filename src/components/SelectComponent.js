@@ -5,7 +5,7 @@ const SelectComponent = ({
 	errorsObj = {},
 	name,
 	alertText = "Pole wymagane",
-	optionsArr = [{ key: "", id: "", name: "" }],
+	optionsArr = [],
 	required,
 	...other
 }) => {

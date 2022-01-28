@@ -3,6 +3,7 @@ import { Grid, Typography } from "@mui/material";
 // my components
 import AddProductForm from "./AddProductForm";
 import AddCategoryForm from "./AddCategoryForm";
+import ChangeUpcomingHoliday from "./ChangeUpcomingHoliday";
 
 const AdminPage = () => {
 	return (
@@ -19,6 +20,10 @@ const AdminPage = () => {
 
 			<Grid item xs={12} sx={{ px: 2 }}>
 				<AddCategoryForm />
+			</Grid>
+
+			<Grid item xs={12} sx={{ px: 2 }}>
+				<ChangeUpcomingHoliday />
 			</Grid>
 		</Grid>
 	);

@@ -16,7 +16,6 @@ const AddCategoryForm = () => {
 		handleSubmit,
 		formState: { errors },
 		reset,
-		
 	} = useForm();
 
 	const onSubmit = ({ name, key, path }) => {
@@ -26,7 +25,7 @@ const AddCategoryForm = () => {
 			path,
 		};
 
-		console.log(catObject);
+		// console.log(catObject);
 
 		try {
 			addDoc(catRef, catObject).then(() => {
@@ -72,16 +71,16 @@ const AddCategoryForm = () => {
 				label="Klucz kategorii:"
 				placeholder="CATEGORY_KEY"
 				alertText="Klucz kategorii jest wymagany"
-				// FIXME: naprawić pattern regex
-				// inputProps={{ pattern: "/[A-Z]{1,}/" }}
+				inputProps={{ pattern: "[A-Z_]{1,}" }}
 				defaultValue={""}
 			/>
 			<InputComponent
 				name="path"
 				{...commonInputsProps}
 				label="Ścieżka kategorii:"
-				placeholder="category_path"
+				placeholder="/category_path"
 				alertText="ścieżka kategorii jest wymagana"
+				inputProps={{ pattern: "/[a-z_?]{1,}" }}
 				defaultValue={""}
 			/>
 		</FormContainer>

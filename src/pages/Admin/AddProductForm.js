@@ -74,7 +74,10 @@ const AddProductForm = () => {
 				imgURLs,
 				name,
 				price: parseFloat(price),
+				timestamp: new Date(),
 			};
+
+			// console.log(prodObject);
 
 			// adding record(document) to database
 			try {
@@ -135,6 +138,7 @@ const AddProductForm = () => {
 				inputProps={{ min: 0.01, max: 999999.99, step: 0.01 }}
 				defaultValue={""}
 			/>
+			{/* TODO: add observer to categories list changes */}
 			<SelectComponent
 				name="category"
 				{...commonInputsProps}

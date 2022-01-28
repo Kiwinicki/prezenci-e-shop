@@ -1,8 +1,8 @@
-import { Outlet } from 'react-router-dom';
-import { Box } from '@mui/material';
+import { Outlet } from "react-router-dom";
+import { Box } from "@mui/material";
 
-import PageHeader from '../../components/PageHeader';
-import PageFooter from '../../components/PageFooter';
+import PageHeader from "../../components/PageHeader";
+import PageFooter from "../../components/PageFooter";
 
 const Layout = () => {
 	return (
