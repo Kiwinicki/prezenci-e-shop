@@ -1,14 +1,15 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { Container, Typography, Card, CardMedia, CardContent, Button } from "@mui/material";
+import { Container, Typography, Button } from "@mui/material";
 
 import { useDispatch, useSelector } from "react-redux";
 import useQueryDocs from "../../hooks/useQueryDocs";
+import useCurrentWidth from "../../hooks/useCurrentWidth";
 
 import { prodRef } from "../../firebase-config";
 
 import Loader from "../../components/Loader";
-import ProductCard from "../../components/ProductCard";
+import CarouselItem from "../../components/CarouselItem";
 import Carousel from "../../components/Carousel";
 
 import { getHolidayKey } from "../../features/UpcomimgHoliday";
@@ -23,36 +24,49 @@ const UpcomingHolidayProducts = () => {
 
 	const productArr = useQueryDocs({
 		ref: prodRef,
-		limitAmount: 8,
+		limitAmount: 10,
 		fieldName: "category",
 		comparsionStr: "==",
 		value: upcomingHolidayObj.key,
 	});
 
+	// const currentWindowWidth = useCurrentWidth();
+
 	return (
-		<div>
-			<Carousel>
-				{productArr?.length > 0 ? (
-					productArr.map((prod, i) => (
-						<ProductCard img={prod.imgURLs[0]} imgAlt="zdjęcie produktu" key={i}>
-							<Typography variant="h5">{prod.name}</Typography>
-						</ProductCard>
-					))
-				) : productArr?.length === 0 ? (
-					<Loader />
-				) : (
-					<Typography>Nie udało się pobrać produktów</Typography>
-				)}
-			</Carousel>
+		<>
+			{/* FIXME: popsute nie widać ostatniego elementu */}
+			{productArr?.length > 0 ? (
+				<Carousel>
+					{productArr.map((prod, i) => (
+						<CarouselItem img={prod.imgURLs[0]} imgAlt="zdjęcie produktu" key={i}>
+							<Typography
+								variant="h4"
+								sx={{ fontWeight: "bold", color: "primary.dark", textAlign: "center" }}
+							>
+								{prod.price}
+							</Typography>
+							<Typography sx={{ fontWeight: "bold", textAlign: "center" }}>{prod.name}</Typography>
+						</CarouselItem>
+					))}
+				</Carousel>
+			) : productArr?.length === 0 ? (
+				<Loader />
+			) : (
+				<Typography>Nie udało się pobrać produktów</Typography>
+			)}
 			<Button
-				sx={{ width: "100%", borderRadius: 0 }}
-				variant="outlined"
+				sx={{
+					width: "100%",
+					borderRadius: 0,
+					// gridColumn: "1 / -1"
+				}}
+				variant="contained"
 				component={RouterLink}
-				to={upcomingHolidayObj.path}
+				to="/kategorie"
 			>
 				Zobacz więcej
 			</Button>
-		</div>
+		</>
 	);
 };
 

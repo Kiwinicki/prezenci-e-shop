@@ -4,7 +4,7 @@ import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
 // components
-import Category from "./pages/Category/index";
+import ProductList from "./pages/ProductList/index";
 import Product from "./pages/Product/index";
 
 // CONSTANTS
@@ -16,7 +16,7 @@ function App() {
 	const categoriesRoutesArr = categoriesArr.map((cat) => ({
 		path: cat.path,
 		children: [
-			{ index: true, element: <Category category={cat.key} /> },
+			{ index: true, element: <ProductList category={cat.key} /> },
 			{ path: `${cat.path}/:productId`, element: <Product /> },
 		],
 	}));
@@ -26,6 +26,17 @@ function App() {
 	const currentComponent = useRoutes(allRoutes);
 
 	let theme = createTheme({
+		// breakpoints: {
+		// 	values: {
+		// 		// new breakpoints will be named: previous default breakpoint + number of pixels of new breakpoint
+		// 		// this convention prevents changes in previously set breakpoints
+		// 		xs: 0,
+		// 		sm: 600,
+		// 		md: 900,
+		// 		lg: 1200,
+		// 		xl: 1536,
+		// 	},
+		// },
 		palette: {
 			primary: {
 				main: "#c33a3a",
@@ -35,6 +46,18 @@ function App() {
 				paper: "#fff",
 			},
 		},
+		// disable rounded corners for boxes
+		// components: {
+		// 	MuiPaper: {
+		// 		styleOverrides: {
+		// 			root: {
+		// 				borderRadius: 12,
+		// 				border: "1px solid red",
+		// 				boxShadow: "none",
+		// 			},
+		// 		},
+		// 	},
+		// },
 	});
 	theme = responsiveFontSizes(theme);
 

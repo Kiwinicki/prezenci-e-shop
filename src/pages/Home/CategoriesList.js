@@ -1,6 +1,17 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { List, Button, ListItem, Link, Typography } from "@mui/material";
+import {
+	List,
+	Button,
+	ListItem,
+	Link,
+	Typography,
+	Box,
+	useMediaQuery,
+	useTheme,
+	Container,
+	Paper,
+} from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 import Loader from "../../components/Loader";
@@ -16,49 +27,71 @@ const CategoriesList = () => {
 		dispatch(getCategoriesList());
 	}, []);
 
+	const theme = useTheme();
+	const isBiggerThanLg = useMediaQuery(theme.breakpoints.up("lg"));
+
+	const categoriesAmount = isBiggerThanLg ? 8 : 6;
+
 	return (
-		<List sx={{ width: "100%", padding: 0 }}>
-			{categoriesArr.length > 5 ? (
+		<>
+			{categoriesArr.length > 0 ? (
 				<>
-					{categoriesArr.slice(0, 5).map(({ path, name, key }) => (
-						<CategoryListItem name={name} path={path} key={key} />
-					))}
-					<Button
-						sx={{ width: "100%", borderRadius: 0 }}
-						variant="outlined"
-						component={RouterLink}
-						to="/kategorie"
+					<Box
+						sx={{
+							display: "grid",
+							gridTemplateRows: { xs: "repeat(3, 1fr)", sm: "repeat(2, 1fr)" },
+							gridTemplateColumns: {
+								xs: "repeat(2, 1fr)",
+								sm: "repeat(3, 1fr)",
+								lg: "repeat(4, 1fr)",
+							},
+							gap: 2,
+							px: 2,
+						}}
 					>
-						Wszystkie kategorie
-					</Button>
+						{categoriesArr.slice(0, categoriesAmount).map(({ path, name, key }) => (
+							<Button
+								component={RouterLink}
+								to={path}
+								sx={{
+									borderRadius: "12px",
+									py: "2vw",
+									"&:link, &:visited": {
+										color: "grey.900",
+									},
+									"&:hover, &:active": {
+										bgcolor: "grey.200",
+									},
+									textDecoration: "none",
+									bgcolor: "grey.100",
+									textAlign: "center",
+									fontWeight: "bold",
+									textTransform: "none",
+								}}
+								key={key}
+							>
+								<Typography variant="h6" sx={{ fontWeight: "bold" }}>
+									{name}
+								</Typography>
+							</Button>
+						))}
+					</Box>
+					{categoriesArr.length > categoriesAmount && (
+						<Button
+							sx={{ width: "100%", borderRadius: 0, gridColumn: "1 / -1" }}
+							variant="contained"
+							component={RouterLink}
+							to="/kategorie"
+						>
+							Wszystkie kategorie
+						</Button>
+					)}
 				</>
-			) : categoriesArr.length > 0 ? (
-				categoriesArr.map(({ path, name, key }) => (
-					<CategoryListItem name={name} path={path} key={key} />
-				))
 			) : (
 				<Loader />
 			)}
-		</List>
+		</>
 	);
 };
 
 export default CategoriesList;
-
-const CategoryListItem = ({ path, name }) => (
-	<ListItem disableGutters divider button sx={{ p: 0 }}>
-		<Link
-			component={RouterLink}
-			to={path}
-			sx={{
-				color: "grey.800",
-				textDecoration: "none",
-				width: "100%",
-				textAlign: "center",
-				py: 1.5,
-			}}
-		>
-			<Typography>{name}</Typography>
-		</Link>
-	</ListItem>
-);
