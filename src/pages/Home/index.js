@@ -22,9 +22,8 @@ import CategoriesList from "./CategoriesList";
 import UpcomingHolidayProducts from "./UpcomingHolidayProducts";
 import SectionHeading from "../../components/SectionHeading";
 import SectionWrapper from "../../components/SectionWrapper";
-import Logo from "../../components/Logo";
+import AboutSection from "./AboutSection";
 
-// FIXME: ogólnie cały układ jest rozjebany;
 const HomePage = () => {
 	return (
 		<Grid
@@ -66,34 +65,7 @@ const HomePage = () => {
 			<GridItem>
 				<SectionWrapper>
 					<SectionHeading>O nas</SectionHeading>
-					{/* FIXME: dodać paddingi po bokach tekstu */}
-					<Typography sx={{ px: 2, textAlign: "justify" }}>
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur quae enim nisi
-						voluptatem veniam ex nemo delectus cum facilis, vero autem ut? Porro eaque ipsum saepe
-						harum minima quaerat id velit magni hic delectus ipsa debitis veritatis neque in enim
-						non incidunt voluptate ea corporis repellendus, doloribus dicta, rem impedit numquam?
-						Nesciunt exercitationem culpa magni nemo? Dolores atque mollitia voluptate ipsum
-						exercitationem autem ullam! Voluptatibus neque provident magnam impedit tempore numquam
-						aliquam officia consequatur nobis? Sed, accusantium? Vero pariatur omnis fuga
-						voluptatem, numquam exercitationem nemo! Dolorum natus a voluptas perspiciatis similique
-						optio ipsum minima iste cupiditate eveniet asperiores nemo incidunt excepturi ea
-						tempore, inventore voluptatum aut suscipit. Totam qui quisquam, in molestiae doloribus
-						accusantium impedit.
-						{/* miejsce na jakieś zdjęcie */}
-						Placeat voluptate aliquam eum perferendis voluptas qui fuga exercitationem quae iste
-						facere enim expedita ab soluta, molestiae dolorem, recusandae cupiditate dolorum fugiat
-						dolore! Sed voluptate voluptas sunt. Sit natus, in maxime neque aperiam ab
-						necessitatibus nobis fugiat reiciendis assumenda dignissimos earum magni aliquid amet
-						illum itaque aliquam. Perferendis dolorem ipsa non qui, soluta voluptatibus eius ad
-						distinctio corrupti possimus debitis eaque incidunt ex quaerat consectetur praesentium,
-						eum illo neque accusamus doloribus quae, nisi molestias expedita voluptates. Libero
-						aliquid itaque in explicabo doloremque, quibusdam molestiae? Consectetur voluptate
-						labore praesentium ex blanditiis itaque atque temporibus. Ea nostrum voluptate
-						necessitatibus quod cum deleniti repudiandae, obcaecati similique, debitis a quia?
-						Tempora recusandae quos quo? Inventore non ut sint, voluptatibus dicta doloribus rem ab
-						eos perspiciatis. Sunt, aliquid eum possimus quaerat dolor nemo ducimus voluptatem iste,
-						neque cum animi autem?
-					</Typography>
+					<AboutSection />
 				</SectionWrapper>
 			</GridItem>
 		</Grid>

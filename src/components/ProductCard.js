@@ -5,19 +5,10 @@ const ProductCard = ({ children, img, imgAlt = "", path }) => {
 	return (
 		<>
 			<Card
-				// square
 				elevation={0}
 				component={RouterLink}
 				to={path || ""}
 				sx={{
-					// borderBottom: { xs: "12px solid" },
-					// borderBottomColor: "red",
-					// minWidth: "140px",
-					// TODO: wersja desktopowa
-					// width: "100%",
-					// maxWidth: "320px",
-					// p: "0 5px 5px",
-					// mx: "10px",
 					transition: "0.25s",
 					"&:hover": {
 						bgcolor: "grey.200",
@@ -49,7 +40,6 @@ const ProductCard = ({ children, img, imgAlt = "", path }) => {
 					{children}
 				</CardContent>
 			</Card>
-			{/* <Divider /> */}
 		</>
 	);
 };
