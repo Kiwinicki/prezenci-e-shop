@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { addDoc } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { useDispatch, useSelector } from "react-redux";
+import { Box } from "@mui/material";
 
 import { prodRef, storage } from "../../firebase-config";
 import { getCategoriesList } from "../../features/Categories";
@@ -12,6 +13,9 @@ import FormContainer from "../../components/FormContainer";
 import InputComponent from "../../components/InputComponent";
 import UploadButton from "../../components/UploadButton";
 import SelectComponent from "../../components/SelectComponent";
+import SectionEndButton from "../../components/SectionEndButton";
+import SectionWrapper from "../../components/SectionWrapper";
+import SectionHeading from "../../components/SectionHeading";
 
 const AddProductForm = () => {
 	const [uploadSuccess, setUploadSuccess] = useState(null);
@@ -32,29 +36,6 @@ const AddProductForm = () => {
 
 			const uploadTask = uploadBytes(imageRef, img);
 			return uploadTask;
-
-			// more complicated version with upload progress that doesn't work
-
-			// const uploadTask = uploadBytesResumable(imageRef, img).on(
-			// 	"state_changed",
-			// 	// observe state changes as progress, pause and resume
-			// 	(snapshot) => {
-			// 		const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-			// 		console.log("Upload is " + progress + "% done");
-			// 	},
-			// 	// handle unsuccessful uplads
-			// 	(error) => {
-			// 		console.error("SOMETHING WENT WRONG WITH UPLOADING FILE", error);
-			// 	},
-			// 	// handle successful uplads on complete
-			// 	() => {
-			// 		return getDownloadURL(uploadTask.snapshot.ref);
-			// 		// .then((downloadURL) => {
-			// 		// 	console.log("FILE IS AT THE ADDRESS: ", downloadURL);
-			// 		// 	imgURLs.push(downloadURL);
-			// 		// });
-			// 	}
-			// );
 		});
 
 		async function addProductToFirebase() {
@@ -76,8 +57,6 @@ const AddProductForm = () => {
 				price: parseFloat(price),
 				timestamp: new Date(),
 			};
-
-			// console.log(prodObject);
 
 			// adding record(document) to database
 			try {
@@ -114,49 +93,53 @@ const AddProductForm = () => {
 	};
 
 	return (
-		<FormContainer
-			submitHandler={handleSubmit(onSubmit)}
-			formTitle="Dodaj produkt"
-			submitBtnText="Dodaj produkt"
-			submitErrorText="Wystąpił błąd z dodaniem produktu do bazy"
-			submitSuccessText="Pomyślnie dodano produkt do bazy"
-			formSubmitState={uploadSuccess}
-		>
-			<InputComponent
-				name="name"
-				{...commonInputsProps}
-				label="nazwa produktu:"
-				alertText="Nazwa produktu jest wymagana"
-				defaultValue={""}
-			/>
-			<InputComponent
-				name="price"
-				{...commonInputsProps}
-				type="number"
-				label="cena produktu:"
-				alertText="Cena produktu jest wymagana"
-				inputProps={{ min: 0.01, max: 999999.99, step: 0.01 }}
-				defaultValue={""}
-			/>
-			{/* TODO: add observer to categories list changes */}
-			<SelectComponent
-				name="category"
-				{...commonInputsProps}
-				label="kategoria produktu:"
-				alertText="Podanie kategorii produktu jest wymagane"
-				optionsArr={categoriesList}
-				defaultValue={""}
-			/>
-			<UploadButton
-				name="images"
-				{...commonInputsProps}
-				buttonText="Dodaj zdjęcia produktu"
-				acceptFileTypes="image/*"
-				alertText="Zdjęcie produktu jest wymagane(min. 1)"
-				multiple
-			/>
-			{/* TODO: wyświetlanie nazw plików które zostały załadowane */}
-		</FormContainer>
+		<SectionWrapper>
+			<SectionHeading>Dodaj produkt</SectionHeading>
+			<FormContainer
+				submitHandler={handleSubmit(onSubmit)}
+				submitErrorText="Wystąpił błąd z dodaniem produktu do bazy"
+				submitSuccessText="Pomyślnie dodano produkt do bazy"
+				formSubmitState={uploadSuccess}
+			>
+				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}>
+					<InputComponent
+						name="name"
+						{...commonInputsProps}
+						label="nazwa produktu:"
+						alertText="Nazwa produktu jest wymagana"
+						defaultValue={""}
+					/>
+					<InputComponent
+						name="price"
+						{...commonInputsProps}
+						type="number"
+						label="cena produktu:"
+						alertText="Cena produktu jest wymagana"
+						inputProps={{ min: 0.01, max: 999999.99, step: 0.01 }}
+						defaultValue={""}
+					/>
+					{/* TODO: add observer to categories list changes */}
+					<SelectComponent
+						name="category"
+						{...commonInputsProps}
+						label="kategoria produktu:"
+						alertText="Podanie kategorii produktu jest wymagane"
+						optionsArr={categoriesList}
+						defaultValue={""}
+					/>
+					<UploadButton
+						name="images"
+						{...commonInputsProps}
+						buttonText="Dodaj zdjęcia produktu"
+						acceptFileTypes="image/*"
+						alertText="Zdjęcie produktu jest wymagane(min. 1)"
+						multiple
+					/>
+				</Box>
+				{/* TODO: wyświetlanie nazw plików które zostały załadowane */}
+				<SectionEndButton type="submit">Dodaj produkt</SectionEndButton>
+			</FormContainer>
+		</SectionWrapper>
 	);
 };
 

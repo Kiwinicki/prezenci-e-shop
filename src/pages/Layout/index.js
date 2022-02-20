@@ -9,7 +9,18 @@ const Layout = () => {
 		<>
 			<PageHeader />
 			{/* flexGrow for footer always on bottom */}
-			<Box component="main" sx={{ flexGrow: 1, margin: { xs: "0 0 16px", lg: "16px 0" } }}>
+			<Box
+				component="main"
+				sx={{
+					flexGrow: 1,
+					margin: { xs: "0 0 16px", lg: "16px 0" },
+					"& > *": {
+						gap: 2,
+						maxWidth: "lg",
+						margin: "0 auto",
+					},
+				}}
+			>
 				<Outlet />
 			</Box>
 			<PageFooter />

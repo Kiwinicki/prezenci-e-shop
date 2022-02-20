@@ -24,6 +24,7 @@ const HeroSection = () => {
 				textAlign: "center",
 				display: "flex",
 				flexDirection: "column",
+				flexGrow: 1,
 				alignItems: "center",
 				gap: { xs: "30px", lg: "50px" },
 			}}

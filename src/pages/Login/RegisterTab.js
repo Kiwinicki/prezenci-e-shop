@@ -4,7 +4,7 @@ import { TextField, Button, Box } from "@mui/material";
 import SectionEndButton from "../../components/SectionEndButton";
 import FormContainer from "../../components/FormContainer";
 
-const LoginTab = () => {
+const RegisterTab = () => {
 	const {
 		register,
 		handleSubmit,
@@ -21,8 +21,13 @@ const LoginTab = () => {
 		<>
 			<FormContainer
 				sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}
-				onSubmit={handleSubmit(submitHandler)}
+				onSubmit={handleSubmit((e) => submitHandler(e))}
 			>
+				<TextField
+					{...register("name", { required: true })}
+					label="Nazwa użytkownika:"
+					variant="outlined"
+				/>
 				<TextField
 					{...register("email", { required: true })}
 					type="email"
@@ -30,15 +35,15 @@ const LoginTab = () => {
 					variant="outlined"
 				/>
 				<TextField
-					{...register("password", { required: true, minLength: 8 })}
+					{...register("password", { required: true })}
 					type="password"
 					label="Hasło:"
 					variant="outlined"
 				/>
 			</FormContainer>
-			<SectionEndButton type="submit">Zaloguj się</SectionEndButton>
+			<SectionEndButton type="submit">Zarejestruj się</SectionEndButton>
 		</>
 	);
 };
 
-export default LoginTab;
+export default RegisterTab;

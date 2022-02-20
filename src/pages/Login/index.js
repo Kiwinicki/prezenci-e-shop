@@ -1,13 +1,21 @@
-import { useState } from 'react';
-import { Typography, Box, Paper, Tabs, Tab } from '@mui/material';
+import { useState } from "react";
+import { Typography, Box, Paper, Tabs, Tab } from "@mui/material";
 
-import RegistrationTab from './RegistrationTab';
-import LoginTab from './LoginTab';
+import SectionWrapper from "../../components/SectionWrapper";
+import SectionHading from "../../components/SectionHeading";
+
+import RegisterTab from "./RegisterTab";
+import LoginTab from "./LoginTab";
 
 const TabPanel = ({ index, value, children }) => {
 	return (
-		<div role="tabpanel" hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`}>
-			{value === index && <Box>{children}</Box>}
+		<div
+			role="tabpanel"
+			hidden={value !== index}
+			id={`tabpanel-${index}`}
+			aria-labelledby={`tab-${index}`}
+		>
+			{value === index && <>{children}</>}
 		</div>
 	);
 };
@@ -15,7 +23,7 @@ const TabPanel = ({ index, value, children }) => {
 function a11yProps(index) {
 	return {
 		id: `tab-${index}`,
-		'aria-controls': `tabpanel-${index}`,
+		"aria-controls": `tabpanel-${index}`,
 	};
 }
 
@@ -26,37 +34,26 @@ const LoginPage = () => {
 		setActiveTab(newValue);
 	};
 
-	const boxStyles = {
-		display: 'flex',
-		flexDirection: 'column',
-		gap: '2rem',
-		padding: '20px',
-	};
-
 	return (
-		<>
-			<Typography component="h2" variant="h4" fontWeight="bold" textAlign="center">
-				Logowanie/Rejestracja
-			</Typography>
-			<Paper elevation={3} sx={{ ...boxStyles, margin: '15px' }}>
-				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-					<Tabs value={activeTab} onChange={handleTabChange} aria-label="zakładki logowania i rejestracji">
-						<Tab label="Logowanie" {...a11yProps(0)} />
-						<Tab label="Rejestracja" {...a11yProps(1)} />
-					</Tabs>
-				</Box>
-				<TabPanel value={activeTab} index={0}>
-					<Box component="div" sx={boxStyles}>
-						<LoginTab />
-					</Box>
-				</TabPanel>
-				<TabPanel value={activeTab} index={1}>
-					<Box sx={boxStyles}>
-						<RegistrationTab />
-					</Box>
-				</TabPanel>
-			</Paper>
-		</>
+		<SectionWrapper>
+			<SectionHading>Logowanie/Rejestracja</SectionHading>
+			<Box sx={{ display: "flex", justifyContent: "center" }}>
+				<Tabs
+					value={activeTab}
+					onChange={handleTabChange}
+					aria-label="zakładki logowania i rejestracji"
+				>
+					<Tab label="Logowanie" {...a11yProps(0)} />
+					<Tab label="Rejestracja" {...a11yProps(1)} />
+				</Tabs>
+			</Box>
+			<TabPanel value={activeTab} index={0}>
+				<LoginTab />
+			</TabPanel>
+			<TabPanel value={activeTab} index={1}>
+				<RegisterTab />
+			</TabPanel>
+		</SectionWrapper>
 	);
 };
 

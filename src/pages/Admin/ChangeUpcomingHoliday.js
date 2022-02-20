@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { updateDoc, doc } from "@firebase/firestore";
 import { useDispatch, useSelector } from "react-redux";
+import { Box } from "@mui/material";
 
 import { db } from "../../firebase-config";
 // redux
@@ -10,6 +11,9 @@ import { getCategoriesList } from "../../features/Categories";
 // my components
 import FormContainer from "../../components/FormContainer";
 import SelectComponent from "../../components/SelectComponent";
+import SectionEndButton from "../../components/SectionEndButton";
+import SectionWrapper from "../../components/SectionWrapper";
+import SectionHeading from "../../components/SectionHeading";
 
 const ChangeUpcomingHoliday = () => {
 	const [updateSucces, setUpdateSuccess] = useState(null);
@@ -55,24 +59,29 @@ const ChangeUpcomingHoliday = () => {
 	};
 
 	return (
-		<FormContainer
-			submitHandler={handleSubmit(onSubmit)}
-			formTitle="Zmień nadchodzące okazję"
-			submitBtnText="Zmień okazję"
-			submitErrorText="Wystąpił błąd przy zmianie rekordu"
-			submitSuccessText="Pomyślnie zaaktualizowano rekord"
-			formSubmitState={updateSucces}
-		>
-			{/* TODO: add observer to categories list changes */}
-			<SelectComponent
-				name="holiday_key"
-				{...commonInputsProps}
-				label="Kategoria zbliżającego się święta:"
-				alertText="Podanie kategorii jest wymagane"
-				optionsArr={categoriesList}
-				defaultValue={""}
-			/>
-		</FormContainer>
+		<SectionWrapper>
+			<SectionHeading>Zmień nadchodzące okazję</SectionHeading>
+			<FormContainer
+				submitHandler={handleSubmit(onSubmit)}
+				submitErrorText="Wystąpił błąd przy zmianie rekordu"
+				submitSuccessText="Pomyślnie zaaktualizowano rekord"
+				formSubmitState={updateSucces}
+			>
+				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}>
+					{/* TODO: add observer to categories list changes */}
+					<SelectComponent
+						name="holiday_key"
+						{...commonInputsProps}
+						label="Kategoria zbliżającego się święta:"
+						alertText="Podanie kategorii jest wymagane"
+						optionsArr={categoriesList}
+						defaultValue={""}
+					/>
+				</Box>
+				<SectionEndButton type="submit">Zmień okazję</SectionEndButton>
+				{/* FIXME: success alert don't fade away but should after 7,5s */}
+			</FormContainer>
+		</SectionWrapper>
 	);
 };
 

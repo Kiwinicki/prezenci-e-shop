@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, collection, doc } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyADUftELX3KWBT3_BYHZzljd4_9fc7TvNs",
@@ -22,6 +23,7 @@ const analytics = getAnalytics(app);
 
 // init services
 export const db = getFirestore(app);
+export const auth = getAuth(app);
 
 // collection refs
 export const prodRef = collection(db, "products");

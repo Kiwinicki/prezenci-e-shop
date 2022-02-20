@@ -26,15 +26,7 @@ import AboutSection from "./AboutSection";
 
 const HomePage = () => {
 	return (
-		<Grid
-			container
-			sx={{
-				gap: 2,
-				maxWidth: "lg",
-				margin: "0 auto",
-				"& *": { flexGrow: 1 },
-			}}
-		>
+		<Grid container>
 			<HeroSection />
 
 			{/* Recently added products */}

@@ -1,6 +1,6 @@
 import { Paper } from "@mui/material";
 
-const SectionWrapper = ({ children, sx }) => {
+const SectionWrapper = ({ children, sx, ...other }) => {
 	return (
 		<Paper
 			sx={{
@@ -13,6 +13,7 @@ const SectionWrapper = ({ children, sx }) => {
 				...sx,
 			}}
 			elevation={0}
+			{...other}
 		>
 			{children}
 		</Paper>
