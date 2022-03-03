@@ -22,7 +22,7 @@ export const getHolidayKey = () => (dispatch) => {
 		if (docSnap.exists) {
 			dispatch(getKey(docSnap.data()));
 		} else {
-			console.error("Download upcoming holiday failed");
+			console.error("Fetching upcoming holiday failed");
 		}
 	})();
 };

@@ -1,5 +1,10 @@
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField } from "@mui/material";
+import { setDoc, doc } from "@firebase/firestore";
+import { createUserWithEmailAndPassword } from "@firebase/auth";
+
+import { auth, db } from "../../firebase-config";
 
 import SectionEndButton from "../../components/SectionEndButton";
 import FormContainer from "../../components/FormContainer";
@@ -8,20 +13,40 @@ const RegisterTab = () => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm();
 
-	const submitHandler = (e) => {
-		e.preventDefault();
-		console.log("dupa");
+	const [registerState, setRegisterState] = useState(null);
+
+	const [errorText, setErrorText] = useState("");
+
+	const submitHandler = ({ name, email, password }) => {
+		createUserWithEmailAndPassword(auth, email, password)
+			.then((cred) => {
+				const role = "user";
+
+				setDoc(doc(db, "users", cred.user.uid), {
+					email: email,
+					userName: name,
+					userRole: role,
+				});
+
+				setRegisterState(true);
+			})
+			.catch((err) => {
+				console.error(err.message);
+				setRegisterState(false);
+				setErrorText(err.message);
+			});
 	};
 
 	return (
 		<>
 			<FormContainer
 				sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}
-				onSubmit={handleSubmit((e) => submitHandler(e))}
+				onSubmit={handleSubmit(submitHandler)}
+				submitErrorText={errorText}
+				formSubmitState={registerState}
 			>
 				<TextField
 					{...register("name", { required: true })}
@@ -40,8 +65,8 @@ const RegisterTab = () => {
 					label="Hasło:"
 					variant="outlined"
 				/>
+				<SectionEndButton type="submit">Zarejestruj się</SectionEndButton>
 			</FormContainer>
-			<SectionEndButton type="submit">Zarejestruj się</SectionEndButton>
 		</>
 	);
 };

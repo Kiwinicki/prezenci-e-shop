@@ -1,17 +1,6 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-	List,
-	Button,
-	ListItem,
-	Link,
-	Typography,
-	Box,
-	useMediaQuery,
-	useTheme,
-	Container,
-	Paper,
-} from "@mui/material";
+import { Button, Typography, Box, useMediaQuery, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 import Loader from "../../components/Loader";

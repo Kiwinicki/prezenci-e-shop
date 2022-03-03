@@ -2,16 +2,16 @@ import { Box, Alert } from "@mui/material";
 
 const FormContainer = ({
 	children,
-	submitHandler,
+	onSubmit,
 	submitErrorText = "Wysyłanie formularza nie powiodło się",
 	submitSuccessText = "Wysyłanie formularza powiodło się",
 	formSubmitState = null,
 	sx,
 }) => {
 	return (
-		<Box component="form" autoComplete="off" onSubmit={submitHandler} sx={sx}>
+		<Box component="form" autoComplete="off" onSubmit={onSubmit} sx={sx}>
 			{children}
-			{formSubmitState ? (
+			{formSubmitState === true ? (
 				<Alert severity="success">{submitSuccessText}</Alert>
 			) : formSubmitState === false ? (
 				<Alert severity="error">{submitErrorText}</Alert>

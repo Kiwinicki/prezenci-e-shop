@@ -1,5 +1,6 @@
+import { useEffect } from "react";
 import { useRoutes } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
@@ -7,12 +8,26 @@ import CssBaseline from "@mui/material/CssBaseline";
 import ProductList from "./pages/ProductList/index";
 import Product from "./pages/Product/index";
 
+// redux
+import { changeAuthState } from "./features/Auth";
+
 // CONSTANTS
-import ROUTES from "./CONSTANTS/ROUTES";
+import { ADMIN_ROUTES, PRIVATE_ROUTES, PUBLIC_ROUTES } from "./CONSTANTS/ROUTES";
 
 function App() {
+	// state from redux
 	const categoriesArr = useSelector((state) => state.categories.value);
+	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+	const isAdmin = useSelector((state) => state.auth.isAdmin);
 
+	const dispatch = useDispatch();
+
+	// subscribe auth changes
+	useEffect(() => {
+		dispatch(changeAuthState());
+	}, []);
+
+	// categories and products routes
 	const categoriesRoutesArr = categoriesArr.map((cat) => ({
 		path: cat.path,
 		children: [
@@ -21,10 +36,21 @@ function App() {
 		],
 	}));
 
-	const allRoutes = [{ ...ROUTES[0], children: [...ROUTES[0].children, ...categoriesRoutesArr] }];
+	const routes = [
+		{
+			...PUBLIC_ROUTES[0],
+			children: [
+				...PUBLIC_ROUTES[0].children,
+				...categoriesRoutesArr,
+				...(isLoggedIn ? PRIVATE_ROUTES : []), // if user is signed in add private routes
+				...(isAdmin ? ADMIN_ROUTES : []), // if admin is signed in add admin route
+			],
+		},
+	];
 
-	const currentComponent = useRoutes(allRoutes);
+	const currentComponent = useRoutes(routes);
 
+	// MUI theme
 	let theme = createTheme({
 		// breakpoints: {
 		// 	values: {

@@ -1,6 +1,13 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField } from "@mui/material";
+import { useNavigate } from "react-router";
+import { signInWithEmailAndPassword } from "@firebase/auth";
 
+import { auth } from "../../firebase-config";
+
+// components
 import SectionEndButton from "../../components/SectionEndButton";
 import FormContainer from "../../components/FormContainer";
 
@@ -8,13 +15,31 @@ const LoginTab = () => {
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm();
 
-	const submitHandler = (e) => {
-		e.preventDefault();
-		console.log("dupa");
+	const [loginState, setLoginState] = useState(null);
+	const [errorText, setErrorText] = useState("");
+
+	const isAdmin = useSelector((state) => state.auth.isAdmin);
+
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		// after sign in as admin redirect to /admin route
+		isAdmin && navigate("/admin");
+	});
+
+	const submitHandler = ({ email, password }) => {
+		signInWithEmailAndPassword(auth, email, password)
+			.then((cred) => {
+				setLoginState(true);
+			})
+			.catch((err) => {
+				console.error(err.message);
+				setErrorText(err.message);
+				setLoginState(false);
+			});
 	};
 
 	return (
@@ -22,6 +47,8 @@ const LoginTab = () => {
 			<FormContainer
 				sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}
 				onSubmit={handleSubmit(submitHandler)}
+				submitErrorText={errorText}
+				formSubmitState={loginState}
 			>
 				<TextField
 					{...register("email", { required: true })}
@@ -35,8 +62,8 @@ const LoginTab = () => {
 					label="Hasło:"
 					variant="outlined"
 				/>
+				<SectionEndButton type="submit">Zaloguj się</SectionEndButton>
 			</FormContainer>
-			<SectionEndButton type="submit">Zaloguj się</SectionEndButton>
 		</>
 	);
 };

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { query, onSnapshot } from "firebase/firestore";
 
-import { catRef, db } from "../firebase-config";
+import { catRef } from "../firebase-config";
 
 export const categoriesSlice = createSlice({
 	name: "categories",

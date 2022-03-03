@@ -29,14 +29,12 @@ const AddCategoryForm = () => {
 			path,
 		};
 
-		console.log("duap");
-
 		try {
 			addDoc(catRef, catObject).then(() => {
 				setUploadSuccess(true);
 
 				reset();
-				// after 7.5s success alert should disappear
+				// FIXME: after 7.5s success alert should disappear
 				setTimeout(() => {
 					setUploadSuccess(null);
 				}, 7500);
@@ -57,7 +55,7 @@ const AddCategoryForm = () => {
 		<SectionWrapper>
 			<SectionHeading>Dodaj kategorię</SectionHeading>
 			<FormContainer
-				submitHandler={handleSubmit(onSubmit)}
+				onSubmit={handleSubmit(onSubmit)}
 				submitErrorText="Wystąpił błąd z dodaniem kategorii do bazy"
 				submitSuccessText="Pomyślnie dodano kategorię do bazy"
 				formSubmitState={uploadSuccess}

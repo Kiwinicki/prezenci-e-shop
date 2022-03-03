@@ -96,7 +96,7 @@ const AddProductForm = () => {
 		<SectionWrapper>
 			<SectionHeading>Dodaj produkt</SectionHeading>
 			<FormContainer
-				submitHandler={handleSubmit(onSubmit)}
+				onSubmit={handleSubmit(onSubmit)}
 				submitErrorText="Wystąpił błąd z dodaniem produktu do bazy"
 				submitSuccessText="Pomyślnie dodano produkt do bazy"
 				formSubmitState={uploadSuccess}

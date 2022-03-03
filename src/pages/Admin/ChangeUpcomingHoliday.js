@@ -62,7 +62,7 @@ const ChangeUpcomingHoliday = () => {
 		<SectionWrapper>
 			<SectionHeading>Zmień nadchodzące okazję</SectionHeading>
 			<FormContainer
-				submitHandler={handleSubmit(onSubmit)}
+				onSubmit={handleSubmit(onSubmit)}
 				submitErrorText="Wystąpił błąd przy zmianie rekordu"
 				submitSuccessText="Pomyślnie zaaktualizowano rekord"
 				formSubmitState={updateSucces}

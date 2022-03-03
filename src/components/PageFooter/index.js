@@ -47,7 +47,7 @@ const PageFooter = () => {
 					}}
 				>
 					<Grid item>
-						<StyledRouterLink to="/login">Zaloguj/Zarejestruj się</StyledRouterLink>
+						<StyledRouterLink to="/logowanie">Zaloguj/Zarejestruj się</StyledRouterLink>
 					</Grid>
 					<Grid item>
 						<StyledRouterLink to="/kategorie">Kategorie</StyledRouterLink>

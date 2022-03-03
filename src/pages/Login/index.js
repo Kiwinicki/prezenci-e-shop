@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Typography, Box, Paper, Tabs, Tab } from "@mui/material";
+import { Box, Tabs, Tab } from "@mui/material";
 
 import SectionWrapper from "../../components/SectionWrapper";
 import SectionHading from "../../components/SectionHeading";
