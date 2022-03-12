@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
 	AppBar,
 	Toolbar,
@@ -31,6 +32,7 @@ const HideOnScroll = ({ children }) => {
 const PageHeader = () => {
 	const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
+	// TODO: useToggle
 	const [isOpen, toggler] = useToggle(false);
 
 	return (
@@ -43,12 +45,13 @@ const PageHeader = () => {
 						{/* TODO: dodać mechanikę szukania przez search bar */}
 						<SearchBar />
 						<ClickAwayListener onClickAway={() => toggler(false)}>
-							<IconButton size="large" color="inherit" aria-label="konto" onClick={toggler}>
-								<PersonIcon />
-							</IconButton>
+							<Box sx={{ position: "relative" }}>
+								<IconButton size="large" color="inherit" aria-label="konto" onClick={toggler}>
+									<PersonIcon />
+								</IconButton>
+								{isOpen ? <AccountPopup /> : null}
+							</Box>
 						</ClickAwayListener>
-						{/* FIXME: po kliknięciu znika - trzeba przechwycić event i go 'anulować' */}
-						{isOpen ? <AccountPopup /> : null}
 					</Toolbar>
 				</AppBar>
 			</HideOnScroll>

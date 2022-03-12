@@ -47,6 +47,7 @@ const RegisterTab = () => {
 				onSubmit={handleSubmit(submitHandler)}
 				submitErrorText={errorText}
 				formSubmitState={registerState}
+				submitSuccessText="Zarejestrowano"
 			>
 				<TextField
 					{...register("name", { required: true })}

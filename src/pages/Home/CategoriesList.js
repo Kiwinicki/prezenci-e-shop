@@ -5,17 +5,10 @@ import { Link as RouterLink } from "react-router-dom";
 
 import Loader from "../../components/Loader";
 
-import { getCategoriesList } from "../../features/Categories";
 import SectionEndButton from "../../components/SectionEndButton";
 
 const CategoriesList = () => {
 	const categoriesArr = useSelector((state) => state.categories.value);
-
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getCategoriesList());
-	}, []);
 
 	const theme = useTheme();
 	const isBiggerThanLg = useMediaQuery(theme.breakpoints.up("lg"));
@@ -67,8 +60,8 @@ const CategoriesList = () => {
 						))}
 					</Box>
 					{categoriesArr.length > categoriesAmount && (
-						<SectionEndButton component={RouterLink} to="/kategorie">
-							Wszystkie kategorie
+						<SectionEndButton component={RouterLink} to="/szukaj">
+							Szukaj produktów
 						</SectionEndButton>
 					)}
 				</>

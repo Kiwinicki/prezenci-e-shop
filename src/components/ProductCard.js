@@ -1,7 +1,7 @@
-import { Card, CardMedia, CardContent, Divider, Button } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-const ProductCard = ({ children, img, imgAlt = "", path }) => {
+const ProductCard = ({ price, name, img, imgAlt = "", path }) => {
 	return (
 		<>
 			<Card
@@ -37,7 +37,20 @@ const ProductCard = ({ children, img, imgAlt = "", path }) => {
 						textAlign: "center",
 					}}
 				>
-					{children}
+					<Typography variant="h4" sx={{ fontWeight: "bold", color: "primary.dark" }}>
+						{price}
+					</Typography>
+					<Typography
+						sx={{
+							display: "-webkit-box",
+							WebkitLineClamp: "2",
+							WebkitBoxOrient: "vertical",
+							overflow: "hidden",
+							fontWeight: "bold",
+						}}
+					>
+						{name}
+					</Typography>
 				</CardContent>
 			</Card>
 		</>

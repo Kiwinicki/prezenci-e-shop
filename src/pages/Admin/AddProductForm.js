@@ -1,14 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { addDoc } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { Box } from "@mui/material";
 
 import { prodRef, storage } from "../../firebase-config";
-import { getCategoriesList } from "../../features/Categories";
 
-// my components
+// custom components
 import FormContainer from "../../components/FormContainer";
 import InputComponent from "../../components/InputComponent";
 import UploadButton from "../../components/UploadButton";
@@ -16,6 +15,7 @@ import SelectComponent from "../../components/SelectComponent";
 import SectionEndButton from "../../components/SectionEndButton";
 import SectionWrapper from "../../components/SectionWrapper";
 import SectionHeading from "../../components/SectionHeading";
+import generateSearchKeywords from "../../utils/generateSearchKeywords";
 
 const AddProductForm = () => {
 	const [uploadSuccess, setUploadSuccess] = useState(null);
@@ -27,7 +27,7 @@ const AddProductForm = () => {
 		reset,
 	} = useForm();
 
-	const onSubmit = ({ category, name, images, price }) => {
+	const onSubmit = ({ category, name, images, price, keywords }) => {
 		// array with pathes to uploaded images
 		let imgURLs = [];
 
@@ -37,6 +37,15 @@ const AddProductForm = () => {
 			const uploadTask = uploadBytes(imageRef, img);
 			return uploadTask;
 		});
+
+		const additionalKeywordsArr = keywords
+			.toLowerCase()
+			.split(" ")
+			.map((word) => generateSearchKeywords(word))
+			.flat();
+
+		// uniqe keywords from keywords field and product name
+		const keywordsArr = [...new Set([...additionalKeywordsArr, ...generateSearchKeywords(name)])];
 
 		async function addProductToFirebase() {
 			// getting images paths
@@ -54,6 +63,7 @@ const AddProductForm = () => {
 				category,
 				imgURLs,
 				name,
+				keywords: keywordsArr,
 				price: parseFloat(price),
 				timestamp: new Date(),
 			};
@@ -80,16 +90,10 @@ const AddProductForm = () => {
 
 	// getting categories list from redux
 	const categoriesList = useSelector((state) => state.categories.value);
-	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(getCategoriesList());
-	}, []);
-
-	const commonInputsProps = {
+	const sharedInputProps = {
 		registerFn: register,
 		errorsObj: errors,
-		required: true,
 	};
 
 	return (
@@ -104,32 +108,41 @@ const AddProductForm = () => {
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}>
 					<InputComponent
 						name="name"
-						{...commonInputsProps}
+						{...sharedInputProps}
+						required={true}
 						label="nazwa produktu:"
 						alertText="Nazwa produktu jest wymagana"
 						defaultValue={""}
 					/>
 					<InputComponent
 						name="price"
-						{...commonInputsProps}
+						{...sharedInputProps}
+						required={true}
 						type="number"
 						label="cena produktu:"
 						alertText="Cena produktu jest wymagana"
 						inputProps={{ min: 0.01, max: 999999.99, step: 0.01 }}
 						defaultValue={""}
 					/>
-					{/* TODO: add observer to categories list changes */}
 					<SelectComponent
 						name="category"
-						{...commonInputsProps}
+						{...sharedInputProps}
+						required={true}
 						label="kategoria produktu:"
 						alertText="Podanie kategorii produktu jest wymagane"
 						optionsArr={categoriesList}
 						defaultValue={""}
 					/>
+					<InputComponent
+						name="keywords"
+						{...sharedInputProps}
+						label="słowa kluczowe oddzielone spacją"
+						defaultValue={""}
+					/>
 					<UploadButton
 						name="images"
-						{...commonInputsProps}
+						{...sharedInputProps}
+						required={true}
 						buttonText="Dodaj zdjęcia produktu"
 						acceptFileTypes="image/*"
 						alertText="Zdjęcie produktu jest wymagane(min. 1)"

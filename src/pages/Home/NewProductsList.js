@@ -1,10 +1,12 @@
-import { Link as RouterLink } from "react-router-dom";
-import { Typography, Box, Button, useMediaQuery, useTheme, Grid } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 
+// hooks
 import useQueryDocs from "../../hooks/useQueryDocs";
 
+// firebase refs
 import { prodRef } from "../../firebase-config";
 
+// custom components
 import Loader from "../../components/Loader";
 import ProductCard from "../../components/ProductCard";
 
@@ -35,12 +37,13 @@ const NewProductsList = () => {
 						}}
 					>
 						{productArr.map((prod, i) => (
-							<ProductCard img={prod.imgURLs[0]} imgAlt="zdjęcie produktu" key={i}>
-								<Typography variant="h4" sx={{ fontWeight: "bold", color: "primary.dark" }}>
-									{prod.price}
-								</Typography>
-								<Typography fontWeight="bold">{prod.name}</Typography>
-							</ProductCard>
+							<ProductCard
+								img={prod.imgURLs[0]}
+								price={prod.price}
+								name={prod.name}
+								path={prod.path}
+								key={i}
+							/>
 						))}
 					</Box>
 				</Box>

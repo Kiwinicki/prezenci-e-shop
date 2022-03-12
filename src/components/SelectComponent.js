@@ -17,8 +17,8 @@ const SelectComponent = ({
 				{...(required && required)}
 				{...other}
 			>
-				{optionsArr.map((option) => (
-					<MenuItem value={option.key} key={option.id}>
+				{optionsArr.map((option, i) => (
+					<MenuItem value={option.key} key={option.id || i}>
 						{option.name}
 					</MenuItem>
 				))}

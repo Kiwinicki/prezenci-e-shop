@@ -6,7 +6,7 @@ import { catRef } from "../firebase-config";
 export const categoriesSlice = createSlice({
 	name: "categories",
 	initialState: {
-		value: [],
+		value: [{ key: "", name: "", path: "" }],
 	},
 	reducers: {
 		getData: (state, action) => {

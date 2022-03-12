@@ -22,12 +22,15 @@ const LoginTab = () => {
 	const [errorText, setErrorText] = useState("");
 
 	const isAdmin = useSelector((state) => state.auth.isAdmin);
+	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
 
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		// after sign in as admin redirect to /admin route
 		isAdmin && navigate("/admin");
+		// after sign in as user redirect to home page
+		isLoggedIn && !isAdmin && navigate("/");
 	});
 
 	const submitHandler = ({ email, password }) => {
@@ -49,6 +52,7 @@ const LoginTab = () => {
 				onSubmit={handleSubmit(submitHandler)}
 				submitErrorText={errorText}
 				formSubmitState={loginState}
+				submitSuccessText="Zalogowano pomyślnie"
 			>
 				<TextField
 					{...register("email", { required: true })}

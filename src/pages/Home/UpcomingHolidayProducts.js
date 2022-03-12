@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import useQueryDocs from "../../hooks/useQueryDocs";
 
 import { prodRef } from "../../firebase-config";
@@ -12,15 +12,8 @@ import CarouselItem from "../../components/CarouselItem";
 import Carousel from "../../components/Carousel";
 import SectionEndButton from "../../components/SectionEndButton";
 
-import { getHolidayKey } from "../../features/UpcomimgHoliday";
-
 const UpcomingHolidayProducts = () => {
 	const upcomingHolidayObj = useSelector((state) => state.upcomingHoliday.value);
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getHolidayKey());
-	}, []);
 
 	const productArr = useQueryDocs({
 		ref: prodRef,

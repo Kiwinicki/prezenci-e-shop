@@ -35,7 +35,7 @@ const HeroSection = () => {
 			{/* TODO: scroll down or move to another page */}
 			<Button
 				component={RouterLink}
-				to="/kategorie"
+				to="/szukaj"
 				variant="contained"
 				sx={{ width: "fit-content", p: { md: "10px 30px" } }}
 			>

@@ -9,6 +9,8 @@ import ProductList from "./pages/ProductList/index";
 import Product from "./pages/Product/index";
 
 // redux
+import { getCategoriesList } from "./features/Categories";
+import { getHolidayKey } from "./features/UpcomimgHoliday";
 import { changeAuthState } from "./features/Auth";
 
 // CONSTANTS
@@ -21,9 +23,12 @@ function App() {
 	const isAdmin = useSelector((state) => state.auth.isAdmin);
 
 	const dispatch = useDispatch();
+	// const navigate = useNavigate();
 
-	// subscribe auth changes
+	// get data and subscribe auth changes with redux
 	useEffect(() => {
+		dispatch(getCategoriesList());
+		dispatch(getHolidayKey());
 		dispatch(changeAuthState());
 	}, []);
 

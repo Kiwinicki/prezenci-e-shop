@@ -50,7 +50,7 @@ const PageFooter = () => {
 						<StyledRouterLink to="/logowanie">Zaloguj/Zarejestruj się</StyledRouterLink>
 					</Grid>
 					<Grid item>
-						<StyledRouterLink to="/kategorie">Kategorie</StyledRouterLink>
+						<StyledRouterLink to="/szukaj">Produkty</StyledRouterLink>
 					</Grid>
 					<Grid item>
 						<StyledRouterLink to="/polityka-prywatnosci">Polityka prywatności</StyledRouterLink>

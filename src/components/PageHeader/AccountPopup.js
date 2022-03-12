@@ -1,10 +1,12 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { List, ListItem, Paper, Link, Typography, useMediaQuery } from "@mui/material";
+import { List, ListItem, Paper, Link, Typography, useMediaQuery, Button } from "@mui/material";
 import { signOut } from "@firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../firebase-config";
+import { styled } from "@mui/styles";
 
 const AccountPopup = forwardRef((props, ref) => {
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -12,15 +14,25 @@ const AccountPopup = forwardRef((props, ref) => {
 
 	const matchesSM = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
+	const navigate = useNavigate();
+
+	const signOutOnClick = () => {
+		signOut(auth)
+			.then(() => {
+				navigate("/logowanie");
+			})
+			.catch((err) => console.error(err.message));
+	};
+
 	return (
 		<Paper
 			ref={ref}
 			sx={{
-				backgroundColor: "white",
 				position: "absolute",
+				backgroundColor: "white",
 				borderRadius: 1.5,
 				top: matchesSM ? "74px" : "68px",
-				right: "10px",
+				right: 0,
 			}}
 		>
 			{isLoggedIn && isAdmin ? (
@@ -28,50 +40,42 @@ const AccountPopup = forwardRef((props, ref) => {
 					<ListItem divider>
 						<Typography fontWeight="bolder">Zalogowano jako Admin</Typography>
 					</ListItem>
-					<ListItem button divider>
-						<Link component={RouterLink} to="/admin">
+					<ListItemWithoutPadding divider>
+						<Button component={RouterLink} to="/admin" variant="text">
 							Admin panel
-						</Link>
-					</ListItem>
-					<ListItem button>
-						<Link
-							onClick={() => {
-								signOut(auth).catch((err) => console.error(err.message));
-							}}
-						>
+						</Button>
+					</ListItemWithoutPadding>
+					<ListItemWithoutPadding>
+						<Button variant="text" onClick={signOutOnClick}>
 							Wyloguj się
-						</Link>
-					</ListItem>
+						</Button>
+					</ListItemWithoutPadding>
 				</List>
 			) : isLoggedIn ? (
 				<List>
-					<ListItem button divider>
-						<Link component={RouterLink} to="/konto">
+					<ListItemWithoutPadding divider>
+						<Button component={RouterLink} to="/konto" variant="text">
 							Konto
-						</Link>
-					</ListItem>
-					<ListItem button divider>
-						<Link component={RouterLink} to="/konto/koszyk">
+						</Button>
+					</ListItemWithoutPadding>
+					<ListItemWithoutPadding divider>
+						<Button component={RouterLink} to="/konto/koszyk" variant="text">
 							Koszyk
-						</Link>
-					</ListItem>
-					<ListItem button>
-						<Link
-							onClick={() => {
-								signOut(auth).catch((err) => console.error(err.message));
-							}}
-						>
+						</Button>
+					</ListItemWithoutPadding>
+					<ListItemWithoutPadding>
+						<Button component={RouterLink} to="/logowanie" variant="text" onClick={signOutOnClick}>
 							Wyloguj się
-						</Link>
-					</ListItem>
+						</Button>
+					</ListItemWithoutPadding>
 				</List>
 			) : (
 				<List>
-					<ListItem button>
-						<Link component={RouterLink} to="/logowanie">
+					<ListItemWithoutPadding>
+						<Button component={RouterLink} to="/logowanie" variant="text">
 							Zaloguj się
-						</Link>
-					</ListItem>
+						</Button>
+					</ListItemWithoutPadding>
 				</List>
 			)}
 		</Paper>
@@ -79,3 +83,7 @@ const AccountPopup = forwardRef((props, ref) => {
 });
 
 export default AccountPopup;
+
+const ListItemWithoutPadding = styled(ListItem)({
+	padding: "0",
+});
