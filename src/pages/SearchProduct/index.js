@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { Button, Typography, Box, Grid } from "@mui/material";
@@ -19,8 +19,11 @@ import {
 	useLoadingStateMachine,
 	states as loadingStates,
 } from "../../hooks/useLoadingStateMachine";
+import slugifyString from "../../utils/slugifyString";
 
-const SearchProductPage = () => {
+const textStyles = { textAlign: "center", p: 2, color: "grey.600" };
+
+const SearchProductPage = ({ categoryObj }) => {
 	const [resp, setResp] = useState([]);
 	const [compareState, updateLoadingState] = useLoadingStateMachine();
 
@@ -31,11 +34,16 @@ const SearchProductPage = () => {
 		handleSubmit,
 		formState: { errors },
 		reset,
+		setValue,
 	} = useForm();
 
-	const textStyles = { textAlign: "center", p: 2, color: "grey.600" };
+	const defaultSelectVal = categoryObj ? categoryObj.key : "";
 
-	// FIXME: poprawić sx
+	useEffect(() => {
+		categoryObj &&
+			searchProductsHandler({ category: defaultSelectVal, setResp, updateLoadingState });
+	}, []);
+
 	return (
 		<Grid container flexDirection={"column"} sx={{ minHeight: "100%", alignItems: "stretch" }}>
 			<Grid item>
@@ -45,6 +53,9 @@ const SearchProductPage = () => {
 						component="form"
 						autoComplete="off"
 						onSubmit={handleSubmit(({ searchWord, category }) => {
+							// FIXME: kurwaa rzuca błędem
+							// setValue({ name: "category", value: category });
+							// clear();
 							searchProductsHandler({ searchWord, category, setResp, updateLoadingState });
 						})}
 						sx={{
@@ -63,7 +74,7 @@ const SearchProductPage = () => {
 							label="kategoria produktu:"
 							alertText=""
 							optionsArr={categoriesArr}
-							defaultValue={""}
+							defaultValue={defaultSelectVal}
 							sx={{ minWidth: { xs: "100%", sm: "200px" } }}
 						/>
 						<InputComponent
@@ -82,7 +93,7 @@ const SearchProductPage = () => {
 				</SectionWrapper>
 			</Grid>
 			{/* TODO: pagination with RTK query? */}
-			<Grid item sx={{ display: "flex", flexGrow: 2, minHeight: "100%" }}>
+			<Grid item sx={{ display: "flex", flexGrow: 2, minHeight: "30vh", height: "100%" }}>
 				<SectionWrapper
 					sx={{
 						flex: "1 1 auto",
@@ -105,7 +116,8 @@ const SearchProductPage = () => {
 										img={prod.imgURLs[0]}
 										price={prod.price}
 										name={prod.name}
-										path={prod.path}
+										// FIXME: zmienić na prod.category(path) + prod name(slug)
+										path={`/${prod.category}/${slugifyString(prod.name)}`}
 										key={i}
 									/>
 								))}

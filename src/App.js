@@ -5,8 +5,8 @@ import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
 // components
-import ProductList from "./pages/ProductList/index";
 import Product from "./pages/Product/index";
+import SearchProductPage from "./pages/SearchProduct";
 
 // redux
 import { getCategoriesList } from "./features/Categories";
@@ -23,7 +23,6 @@ function App() {
 	const isAdmin = useSelector((state) => state.auth.isAdmin);
 
 	const dispatch = useDispatch();
-	// const navigate = useNavigate();
 
 	// get data and subscribe auth changes with redux
 	useEffect(() => {
@@ -36,7 +35,7 @@ function App() {
 	const categoriesRoutesArr = categoriesArr.map((cat) => ({
 		path: cat.path,
 		children: [
-			{ index: true, element: <ProductList category={cat.key} /> },
+			{ index: true, element: <SearchProductPage categoryObj={cat} /> },
 			{ path: `${cat.path}/:productId`, element: <Product /> },
 		],
 	}));

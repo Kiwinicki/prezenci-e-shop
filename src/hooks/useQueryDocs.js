@@ -17,7 +17,7 @@ const useQueryDocs = ({ ref, limitAmount, fieldName, comparsionStr = "==", value
 				let tempArr = [];
 
 				if (!querySnap.empty) {
-					querySnap.forEach((el) => tempArr.push(el.data()));
+					querySnap.forEach((el) => tempArr.push({ ...el.data(), id: el.id }));
 					setFethedDocs(tempArr); // if successfully downloaded return array with item/s
 				} else {
 					setFethedDocs(null); // if there is no items return null

@@ -37,7 +37,7 @@ const HeroSection = () => {
 				component={RouterLink}
 				to="/szukaj"
 				variant="contained"
-				sx={{ width: "fit-content", p: { md: "10px 30px" } }}
+				sx={{ width: "fit-content", p: "10px 25px" }}
 			>
 				Sprawdź!
 			</Button>

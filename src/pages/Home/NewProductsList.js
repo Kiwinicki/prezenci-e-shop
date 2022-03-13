@@ -3,14 +3,18 @@ import { Typography, Box } from "@mui/material";
 // hooks
 import useQueryDocs from "../../hooks/useQueryDocs";
 
-// firebase refs
+// firebase stuff
 import { prodRef } from "../../firebase-config";
+
+// utility functions
+import slugifyString from "../../utils/slugifyString";
 
 // custom components
 import Loader from "../../components/Loader";
 import ProductCard from "../../components/ProductCard";
+import { useSelector } from "react-redux";
 
-const now = new Date(); // TODO: zrobić by wartość się nie zmieniała i nie wysyłać co chwilę zapytań do bazy
+const now = new Date();
 
 const NewProductsList = () => {
 	// fetch last 4 products from firebase
@@ -21,6 +25,9 @@ const NewProductsList = () => {
 		comparsionStr: "<=",
 		value: now,
 	});
+
+	const categories = useSelector((state) => state.categories.value);
+	console.log(categories);
 
 	return (
 		<>
@@ -36,15 +43,24 @@ const NewProductsList = () => {
 							pb: 2,
 						}}
 					>
-						{productArr.map((prod, i) => (
-							<ProductCard
-								img={prod.imgURLs[0]}
-								price={prod.price}
-								name={prod.name}
-								path={prod.path}
-								key={i}
-							/>
-						))}
+						{productArr.map((prod, i) => {
+							// FIXME: wywala błąd
+							const categoryPath =
+								categories.length !== 0
+									? categories.find((el) => el.key === prod.category)?.path
+									: "";
+							console.log("category path: ", categoryPath);
+							return (
+								<ProductCard
+									img={prod.imgURLs[0]}
+									price={prod.price}
+									name={prod.name}
+									// FIXME: chyba inaczej to trzeba zrobić z react-router :prodId
+									path={`${categoryPath}/${slugifyString(prod.name)}`}
+									key={i}
+								/>
+							);
+						})}
 					</Box>
 				</Box>
 			) : productArr?.length === 0 ? (

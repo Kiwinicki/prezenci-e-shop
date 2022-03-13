@@ -1,13 +1,15 @@
 import { Card, CardMedia, CardContent, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
-const ProductCard = ({ price, name, img, imgAlt = "", path }) => {
+const ProductCard = ({ price, name, img, imgAlt = "", path = "" }) => {
+	console.log(path);
 	return (
 		<>
 			<Card
 				elevation={0}
 				component={RouterLink}
-				to={path || ""}
+				// FIXME:
+				to={path}
 				sx={{
 					transition: "0.25s",
 					"&:hover": {
@@ -21,6 +23,7 @@ const ProductCard = ({ price, name, img, imgAlt = "", path }) => {
 					borderColor: "grey.100",
 				}}
 			>
+				{console.log(path)}
 				<CardMedia
 					component="img"
 					src={img}
@@ -28,7 +31,7 @@ const ProductCard = ({ price, name, img, imgAlt = "", path }) => {
 					sx={{
 						objectFit: "contain",
 						height: "clamp(160px, 20vw, 300px)",
-						paddingTop: "10px",
+						py: "5px",
 						bgcolor: "white",
 					}}
 				/>
