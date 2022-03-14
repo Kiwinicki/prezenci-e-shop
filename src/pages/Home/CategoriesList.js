@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Button, Typography, Box, useMediaQuery, useTheme } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
 
 import Loader from "../../components/Loader";
 
 import SectionEndButton from "../../components/SectionEndButton";
+import slugifyString from "../../utils/slugifyString";
 
 const CategoriesList = () => {
 	const categoriesArr = useSelector((state) => state.categories.value);
@@ -32,10 +32,10 @@ const CategoriesList = () => {
 							px: 2,
 						}}
 					>
-						{categoriesArr.slice(0, categoriesAmount).map(({ path, name, key }) => (
+						{categoriesArr.slice(0, categoriesAmount).map(({ name, key }) => (
 							<Button
 								component={RouterLink}
-								to={path}
+								to={`/szukaj/${slugifyString(name)}`}
 								sx={{
 									borderRadius: "12px",
 									py: "2vw",

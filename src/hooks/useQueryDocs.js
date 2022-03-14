@@ -11,8 +11,6 @@ const useQueryDocs = ({ ref, limitAmount, fieldName, comparsionStr = "==", value
 	useEffect(() => {
 		// don't make request if there is no value
 		if (value !== undefined) {
-			console.log(`making request for ${fieldName}`);
-
 			getDocs(q).then((querySnap) => {
 				let tempArr = [];
 

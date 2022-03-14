@@ -27,7 +27,7 @@ const searchProductsHandler = ({ searchWord = "", category, setResp, updateLoadi
 			let tempArr = [];
 
 			if (!querySnap.empty) {
-				querySnap.forEach((el) => tempArr.push(el.data()));
+				querySnap.forEach((el) => tempArr.push({ ...el.data(), id: el.id }));
 				setResp(tempArr); // if successfully downloaded set array with item/s
 				updateLoadingState(loadingStates.hasLoaded);
 			} else {

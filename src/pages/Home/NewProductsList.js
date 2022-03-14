@@ -17,7 +17,7 @@ import { useSelector } from "react-redux";
 const now = new Date();
 
 const NewProductsList = () => {
-	// fetch last 4 products from firebase
+	// fetch recent 4 products from firebase
 	const productArr = useQueryDocs({
 		ref: prodRef,
 		limitAmount: 4,
@@ -27,7 +27,6 @@ const NewProductsList = () => {
 	});
 
 	const categories = useSelector((state) => state.categories.value);
-	console.log(categories);
 
 	return (
 		<>
@@ -43,21 +42,19 @@ const NewProductsList = () => {
 							pb: 2,
 						}}
 					>
-						{productArr.map((prod, i) => {
-							// FIXME: wywala błąd
-							const categoryPath =
-								categories.length !== 0
-									? categories.find((el) => el.key === prod.category)?.path
-									: "";
-							console.log("category path: ", categoryPath);
+						{productArr.map((prod) => {
+							const categoryName =
+								(categories.length !== 0 &&
+									categories.find((el) => el.key === prod.category).name) ||
+								"";
+
 							return (
 								<ProductCard
 									img={prod.imgURLs[0]}
 									price={prod.price}
 									name={prod.name}
-									// FIXME: chyba inaczej to trzeba zrobić z react-router :prodId
-									path={`${categoryPath}/${slugifyString(prod.name)}`}
-									key={i}
+									path={`/szukaj/${slugifyString(categoryName)}/${prod.id}`}
+									key={`${prod.id}`}
 								/>
 							);
 						})}

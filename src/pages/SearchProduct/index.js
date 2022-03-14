@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Typography, Box, Grid } from "@mui/material";
 
@@ -11,6 +12,9 @@ import InputComponent from "../../components/InputComponent";
 import ProductCard from "../../components/ProductCard";
 import Loader from "../../components/Loader";
 
+// utility functions
+import slugifyString from "../../utils/slugifyString";
+
 // form submition logic
 import searchProductsHandler from "./searchProductsHandler";
 
@@ -19,29 +23,39 @@ import {
 	useLoadingStateMachine,
 	states as loadingStates,
 } from "../../hooks/useLoadingStateMachine";
-import slugifyString from "../../utils/slugifyString";
 
 const textStyles = { textAlign: "center", p: 2, color: "grey.600" };
 
-const SearchProductPage = ({ categoryObj }) => {
+const SearchProductPage = () => {
+	const urlParams = useParams();
+	const navigate = useNavigate();
+
 	const [resp, setResp] = useState([]);
 	const [compareState, updateLoadingState] = useLoadingStateMachine();
 
 	const categoriesArr = useSelector((state) => state.categories.value);
+
+	const categoryKey = urlParams.categorySlug
+		? categoriesArr.find((el) => el.slug === urlParams.categorySlug).key
+		: "";
+
+	// if user comes from some category link set Select default value on url param on first render
+	const defaultSelectValue = useRef(categoryKey);
 
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
 		reset,
-		setValue,
 	} = useForm();
 
-	const defaultSelectVal = categoryObj ? categoryObj.key : "";
-
 	useEffect(() => {
-		categoryObj &&
-			searchProductsHandler({ category: defaultSelectVal, setResp, updateLoadingState });
+		urlParams.categorySlug &&
+			searchProductsHandler({
+				category: categoryKey,
+				setResp,
+				updateLoadingState,
+			});
 	}, []);
 
 	return (
@@ -53,10 +67,10 @@ const SearchProductPage = ({ categoryObj }) => {
 						component="form"
 						autoComplete="off"
 						onSubmit={handleSubmit(({ searchWord, category }) => {
-							// FIXME: kurwaa rzuca błędem
-							// setValue({ name: "category", value: category });
-							// clear();
 							searchProductsHandler({ searchWord, category, setResp, updateLoadingState });
+							navigate(
+								`/szukaj/${slugifyString(categoriesArr.find((el) => el.key === category).name)}`
+							);
 						})}
 						sx={{
 							width: "100%",
@@ -74,7 +88,7 @@ const SearchProductPage = ({ categoryObj }) => {
 							label="kategoria produktu:"
 							alertText=""
 							optionsArr={categoriesArr}
-							defaultValue={defaultSelectVal}
+							defaultValue={defaultSelectValue.current}
 							sx={{ minWidth: { xs: "100%", sm: "200px" } }}
 						/>
 						<InputComponent
@@ -111,16 +125,21 @@ const SearchProductPage = ({ categoryObj }) => {
 									pb: 2,
 								}}
 							>
-								{resp.map((prod, i) => (
-									<ProductCard
-										img={prod.imgURLs[0]}
-										price={prod.price}
-										name={prod.name}
-										// FIXME: zmienić na prod.category(path) + prod name(slug)
-										path={`/${prod.category}/${slugifyString(prod.name)}`}
-										key={i}
-									/>
-								))}
+								{resp.map((prod) => {
+									const categoryName =
+										categoriesArr.length !== 0 &&
+										categoriesArr.find((el) => el.key === prod.category).name;
+
+									return (
+										<ProductCard
+											img={prod.imgURLs[0]}
+											price={prod.price}
+											name={prod.name}
+											path={`/szukaj/${slugifyString(categoryName)}/${prod.id}`}
+											key={prod.id}
+										/>
+									);
+								})}
 							</Box>
 						</Box>
 					)}

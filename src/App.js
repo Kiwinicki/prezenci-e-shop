@@ -1,20 +1,30 @@
 import { useEffect } from "react";
-import { useRoutes } from "react-router-dom";
+import { Routes, Route, useNavigate, HashRouter } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { createTheme, responsiveFontSizes, ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 
-// components
+// pages
+import Layout from "./pages/Layout/index";
+import Home from "./pages/Home/index";
+import Login from "./pages/Login/index";
+import SearchProduct from "./pages/SearchProduct/index";
+import NewProducts from "./pages/NewProducts/index";
+import Admin from "./pages/Admin/index";
+import PrivacyPolicy from "./pages/PrivacyPolicy/index";
+import Account from "./pages/Account/index";
+import Cart from "./pages/Cart";
+import NoMatch from "./pages/NoMatch";
 import Product from "./pages/Product/index";
-import SearchProductPage from "./pages/SearchProduct";
 
 // redux
 import { getCategoriesList } from "./features/Categories";
 import { getHolidayKey } from "./features/UpcomimgHoliday";
 import { changeAuthState } from "./features/Auth";
+import slugifyString from "./utils/slugifyString";
 
 // CONSTANTS
-import { ADMIN_ROUTES, PRIVATE_ROUTES, PUBLIC_ROUTES } from "./CONSTANTS/ROUTES";
+// import { ADMIN_ROUTES, PRIVATE_ROUTES, PUBLIC_ROUTES } from "./CONSTANTS/ROUTES";
 
 function App() {
 	// state from redux
@@ -31,28 +41,11 @@ function App() {
 		dispatch(changeAuthState());
 	}, []);
 
-	// categories and products routes
-	const categoriesRoutesArr = categoriesArr.map((cat) => ({
-		path: cat.path,
-		children: [
-			{ index: true, element: <SearchProductPage categoryObj={cat} /> },
-			{ path: `${cat.path}/:productId`, element: <Product /> },
-		],
-	}));
-
-	const routes = [
-		{
-			...PUBLIC_ROUTES[0],
-			children: [
-				...PUBLIC_ROUTES[0].children,
-				...categoriesRoutesArr,
-				...(isLoggedIn ? PRIVATE_ROUTES : []), // if user is signed in add private routes
-				...(isAdmin ? ADMIN_ROUTES : []), // if admin is signed in add admin route
-			],
-		},
-	];
-
-	const currentComponent = useRoutes(routes);
+	// redirect to admin page after sign in as admin
+	// const navigate = useNavigate();
+	// useEffect(() => {
+	// 	isAdmin && isLoggedIn && navigate("/admin");
+	// }, [isLoggedIn, isAdmin]);
 
 	// MUI theme
 	let theme = createTheme({
@@ -95,7 +88,26 @@ function App() {
 		<>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				{currentComponent}
+				<Routes>
+					<Route path="/" element={<Layout />}>
+						<Route index element={<Home />} />
+						<Route path="szukaj">
+							<Route index element={<SearchProduct />} />
+							<Route path={`:categorySlug`} element={<SearchProduct />} />
+							<Route path={`/szukaj/:categorySlug/:productId`} element={<Product />} />
+						</Route>
+						<Route path="logowanie" element={<Login />} />
+						<Route path="polityka-prywatnosci" element={<PrivacyPolicy />} />
+						<Route path="*" element={<NoMatch />} />
+						{isLoggedIn && (
+							<Route path="konto">
+								<Route index element={<Account />} />
+								<Route path="konto" element={<Cart />} />
+							</Route>
+						)}
+						{isLoggedIn && isAdmin && <Route path="admin" element={<Admin />} />}
+					</Route>
+				</Routes>
 			</ThemeProvider>
 		</>
 	);
