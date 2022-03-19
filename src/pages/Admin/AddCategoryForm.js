@@ -12,6 +12,9 @@ import SectionWrapper from "../../components/SectionWrapper";
 import SectionEndButton from "../../components/SectionEndButton";
 import SectionHeading from "../../components/SectionHeading";
 
+// util functions
+import slugifyString from "../../utils/slugifyString";
+
 const AddCategoryForm = () => {
 	const [uploadSuccess, setUploadSuccess] = useState(null);
 
@@ -22,11 +25,11 @@ const AddCategoryForm = () => {
 		reset,
 	} = useForm();
 
-	const onSubmit = ({ name, key, path }) => {
+	const onSubmit = ({ name, key }) => {
 		const catObject = {
 			name,
 			key,
-			path,
+			slug: slugifyString(name),
 		};
 
 		try {
@@ -49,6 +52,7 @@ const AddCategoryForm = () => {
 		registerFn: register,
 		errorsObj: errors,
 		required: true,
+		defaultValue: "",
 	};
 
 	return (
@@ -66,25 +70,14 @@ const AddCategoryForm = () => {
 						{...commonInputsProps}
 						label="nazwa kategorii:"
 						alertText="Nazwa kategorii jest wymagana"
-						defaultValue={""}
 					/>
 					<InputComponent
 						name="key"
 						{...commonInputsProps}
 						label="Klucz kategorii:"
 						placeholder="CATEGORY_KEY"
-						alertText="Klucz kategorii jest wymagany"
+						alertText={`Klucz kategorii jest wymagany. Musi składać się wyłącznie z wielkich liter lub znaku "_".`}
 						inputProps={{ pattern: "[A-Z_]{1,}" }}
-						defaultValue={""}
-					/>
-					<InputComponent
-						name="path"
-						{...commonInputsProps}
-						label="Ścieżka kategorii:"
-						placeholder="/category_path"
-						alertText="ścieżka kategorii jest wymagana"
-						inputProps={{ pattern: "/[a-z_?]{1,}" }}
-						defaultValue={""}
 					/>
 				</Box>
 				<SectionEndButton type="submit">Dodaj kategorię</SectionEndButton>

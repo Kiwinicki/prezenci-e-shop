@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { addDoc } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { useSelector } from "react-redux";
-import { Box } from "@mui/material";
+import { Box, FormControl, InputLabel, Input } from "@mui/material";
 
 import { prodRef, storage } from "../../firebase-config";
 
@@ -27,7 +27,7 @@ const AddProductForm = () => {
 		reset,
 	} = useForm();
 
-	const onSubmit = ({ category, name, images, price, keywords }) => {
+	const onSubmit = ({ category, name, images, price, keywords, description }) => {
 		// array with pathes to uploaded images
 		let imgURLs = [];
 
@@ -58,11 +58,12 @@ const AddProductForm = () => {
 				imgURLs.push(url);
 			}
 
-			// variables names same as object keys
+			// some variables names same as object keys
 			const prodObject = {
 				category,
 				imgURLs,
 				name,
+				description: description || "",
 				keywords: keywordsArr,
 				price: parseFloat(price),
 				timestamp: new Date(),
@@ -94,6 +95,7 @@ const AddProductForm = () => {
 	const sharedInputProps = {
 		registerFn: register,
 		errorsObj: errors,
+		defaultValue: "",
 	};
 
 	return (
@@ -112,7 +114,6 @@ const AddProductForm = () => {
 						required={true}
 						label="nazwa produktu:"
 						alertText="Nazwa produktu jest wymagana"
-						defaultValue={""}
 					/>
 					<InputComponent
 						name="price"
@@ -122,7 +123,6 @@ const AddProductForm = () => {
 						label="cena produktu:"
 						alertText="Cena produktu jest wymagana"
 						inputProps={{ min: 0.01, max: 999999.99, step: 0.01 }}
-						defaultValue={""}
 					/>
 					<SelectComponent
 						name="category"
@@ -131,14 +131,24 @@ const AddProductForm = () => {
 						label="kategoria produktu:"
 						alertText="Podanie kategorii produktu jest wymagane"
 						optionsArr={categoriesList}
-						defaultValue={""}
 					/>
 					<InputComponent
 						name="keywords"
 						{...sharedInputProps}
 						label="słowa kluczowe oddzielone spacją"
-						defaultValue={""}
 					/>
+					<FormControl variant="standard">
+						<InputLabel htmlFor="description-textarea">opis produktu</InputLabel>
+						<Input
+							id="description-textarea"
+							inputComponent="textarea"
+							defaultValue=""
+							{...register("description")}
+							sx={{
+								"& > *": { resize: "vertical", minHeight: "7ch", bgcolor: "rgba(0,0,0,0.03)" },
+							}}
+						/>
+					</FormControl>
 					<UploadButton
 						name="images"
 						{...sharedInputProps}

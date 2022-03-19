@@ -30,6 +30,7 @@ const CategoriesList = () => {
 							},
 							gap: 2,
 							px: 2,
+							pb: { lg: 2 },
 						}}
 					>
 						{categoriesArr.slice(0, categoriesAmount).map(({ name, key }) => (

@@ -21,10 +21,6 @@ import Product from "./pages/Product/index";
 import { getCategoriesList } from "./features/Categories";
 import { getHolidayKey } from "./features/UpcomimgHoliday";
 import { changeAuthState } from "./features/Auth";
-import slugifyString from "./utils/slugifyString";
-
-// CONSTANTS
-// import { ADMIN_ROUTES, PRIVATE_ROUTES, PUBLIC_ROUTES } from "./CONSTANTS/ROUTES";
 
 function App() {
 	// state from redux
@@ -48,18 +44,7 @@ function App() {
 	// }, [isLoggedIn, isAdmin]);
 
 	// MUI theme
-	let theme = createTheme({
-		// breakpoints: {
-		// 	values: {
-		// 		// new breakpoints will be named: previous default breakpoint + number of pixels of new breakpoint
-		// 		// this convention prevents changes in previously set breakpoints
-		// 		xs: 0,
-		// 		sm: 600,
-		// 		md: 900,
-		// 		lg: 1200,
-		// 		xl: 1536,
-		// 	},
-		// },
+	const theme = createTheme({
 		palette: {
 			primary: {
 				main: "#c33a3a",
@@ -69,24 +54,12 @@ function App() {
 				paper: "#fff",
 			},
 		},
-		// disable rounded corners for boxes
-		// components: {
-		// 	MuiPaper: {
-		// 		styleOverrides: {
-		// 			root: {
-		// 				borderRadius: 12,
-		// 				border: "1px solid red",
-		// 				boxShadow: "none",
-		// 			},
-		// 		},
-		// 	},
-		// },
 	});
-	theme = responsiveFontSizes(theme);
+	const themeWithResponsiveFonts = responsiveFontSizes(theme);
 
 	return (
 		<>
-			<ThemeProvider theme={theme}>
+			<ThemeProvider theme={themeWithResponsiveFonts}>
 				<CssBaseline />
 				<Routes>
 					<Route path="/" element={<Layout />}>
