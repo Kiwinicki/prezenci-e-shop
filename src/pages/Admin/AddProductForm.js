@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { addDoc } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { useSelector } from "react-redux";
-import { Box, FormControl, InputLabel, Input } from "@mui/material";
+import { Box, FormControl, InputLabel, Input, Typography } from "@mui/material";
 
 import { prodRef, storage } from "../../firebase-config";
 
@@ -25,6 +25,7 @@ const AddProductForm = () => {
 		handleSubmit,
 		formState: { errors },
 		reset,
+		watch,
 	} = useForm();
 
 	const onSubmit = ({ category, name, images, price, keywords, description }) => {
@@ -98,6 +99,8 @@ const AddProductForm = () => {
 		defaultValue: "",
 	};
 
+	const watchImages = watch("images");
+
 	return (
 		<SectionWrapper>
 			<SectionHeading>Dodaj produkt</SectionHeading>
@@ -158,8 +161,23 @@ const AddProductForm = () => {
 						alertText="Zdjęcie produktu jest wymagane(min. 1)"
 						multiple
 					/>
+					<Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
+						{watchImages &&
+							Array.from(watchImages).map((img) => (
+								<Typography
+									sx={{
+										bgcolor: "background.default",
+										border: "1px solid",
+										borderColor: "primary.main",
+										borderRadius: 2,
+										p: 1,
+									}}
+								>
+									{img.name}
+								</Typography>
+							))}
+					</Box>
 				</Box>
-				{/* TODO: wyświetlanie nazw plików które zostały załadowane */}
 				<SectionEndButton type="submit">Dodaj produkt</SectionEndButton>
 			</FormContainer>
 		</SectionWrapper>

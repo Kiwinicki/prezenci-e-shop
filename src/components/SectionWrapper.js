@@ -10,6 +10,8 @@ const SectionWrapper = ({ children, sx, ...other }) => {
 				flexDirection: "column",
 				gap: 2,
 				overflow: "hidden",
+				border: "1px solid",
+				borderColor: "grey.200",
 				...sx,
 			}}
 			elevation={0}

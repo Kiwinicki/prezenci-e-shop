@@ -46,6 +46,7 @@ const Carousel = ({ children }) => {
 				sx={{
 					overflow: isTouchscreen ? "scroll" : "hidden",
 					position: "relative",
+					width: "100%",
 				}}
 			>
 				<ItemsList

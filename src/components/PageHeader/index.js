@@ -32,7 +32,6 @@ const HideOnScroll = ({ children }) => {
 const PageHeader = () => {
 	const Offset = styled("div")(({ theme }) => theme.mixins.toolbar);
 
-	// TODO: useToggle
 	const [isOpen, toggler] = useToggle(false);
 
 	return (
@@ -42,14 +41,13 @@ const PageHeader = () => {
 					<Toolbar sx={{ gap: "10px" }}>
 						<Logo />
 						<Box flexGrow={1} />
-						{/* TODO: dodać mechanikę szukania przez search bar */}
 						<SearchBar />
 						<ClickAwayListener onClickAway={() => toggler(false)}>
 							<Box sx={{ position: "relative" }}>
 								<IconButton size="large" color="inherit" aria-label="konto" onClick={toggler}>
 									<PersonIcon />
 								</IconButton>
-								{isOpen ? <AccountPopup /> : null}
+								{isOpen ? <AccountPopup toggler={toggler} /> : null}
 							</Box>
 						</ClickAwayListener>
 					</Toolbar>

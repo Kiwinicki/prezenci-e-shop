@@ -1,12 +1,13 @@
 import { forwardRef, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
-import { List, ListItem, Paper, Link, Typography, useMediaQuery, Button } from "@mui/material";
+import { List, ListItem, Paper, Typography, useMediaQuery, Button, styled } from "@mui/material";
 import { signOut } from "@firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../../firebase-config";
-import { styled } from "@mui/styles";
+
+import { clearCart } from "../../features/Cart";
 
 const AccountPopup = forwardRef((props, ref) => {
 	const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -15,6 +16,7 @@ const AccountPopup = forwardRef((props, ref) => {
 	const matchesSM = useMediaQuery((theme) => theme.breakpoints.up("sm"));
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const signOutOnClick = () => {
 		signOut(auth)
@@ -22,6 +24,8 @@ const AccountPopup = forwardRef((props, ref) => {
 				navigate("/logowanie");
 			})
 			.catch((err) => console.error(err.message));
+		// clear cart in redux and LocalStorage after log out
+		dispatch(clearCart());
 	};
 
 	return (
@@ -86,4 +90,7 @@ export default AccountPopup;
 
 const ListItemWithoutPadding = styled(ListItem)({
 	padding: "0",
+	"& *": {
+		width: "100%",
+	},
 });

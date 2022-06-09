@@ -29,6 +29,8 @@ const RegisterTab = () => {
 					email: email,
 					userName: name,
 					userRole: role,
+					address: "",
+					phone: "",
 				});
 
 				setRegisterState(true);

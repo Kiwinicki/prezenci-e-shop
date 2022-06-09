@@ -10,7 +10,7 @@ const UploadButton = ({
 	acceptFileTypes = "",
 	required,
 }) => {
-	const uniqeID = `file-upload-btn-${Math.random() * 100}`;
+	const uniqeID = `file-upload-btn`;
 
 	return (
 		<>

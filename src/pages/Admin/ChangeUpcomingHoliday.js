@@ -33,12 +33,13 @@ const ChangeUpcomingHoliday = () => {
 
 			await updateDoc(holidayKeyRef, {
 				key: holiday_key,
-				path: matchingCategory.path,
 				name: matchingCategory.name,
+				slug: matchingCategory.slug,
 			});
 
 			setUpdateSuccess(true);
 			reset();
+			setTimeout(() => setUpdateSuccess(null), 7500);
 		}
 
 		updateHolidayKey();
@@ -68,7 +69,6 @@ const ChangeUpcomingHoliday = () => {
 				formSubmitState={updateSucces}
 			>
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}>
-					{/* TODO: add observer to categories list changes */}
 					<SelectComponent
 						name="holiday_key"
 						{...commonInputsProps}
@@ -79,7 +79,6 @@ const ChangeUpcomingHoliday = () => {
 					/>
 				</Box>
 				<SectionEndButton type="submit">Zmień okazję</SectionEndButton>
-				{/* FIXME: success alert don't fade away but should after 7,5s */}
 			</FormContainer>
 		</SectionWrapper>
 	);

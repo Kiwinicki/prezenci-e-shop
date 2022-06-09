@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Button, Typography, Box, Grid } from "@mui/material";
 
@@ -28,6 +28,8 @@ const textStyles = { textAlign: "center", p: 2, color: "grey.600" };
 
 const SearchProductPage = () => {
 	const urlParams = useParams();
+	const { state } = useLocation();
+
 	const navigate = useNavigate();
 
 	const [resp, setResp] = useState([]);
@@ -42,17 +44,27 @@ const SearchProductPage = () => {
 	// if user comes from some category link set Select default value on url param on first render
 	const defaultSelectValue = useRef(categoryKey);
 
+	const initialSearchValue = useRef(state?.searchWord);
+
 	const {
 		register,
 		handleSubmit,
 		formState: { errors },
-		reset,
 	} = useForm();
 
 	useEffect(() => {
+		// if page was opened from category link fetch data on first render
 		urlParams.categorySlug &&
 			searchProductsHandler({
 				category: categoryKey,
+				setResp,
+				updateLoadingState,
+			});
+
+		// if page was opened from search bar fetch data on first render
+		state?.searchWord &&
+			searchProductsHandler({
+				searchWord: state.searchWord,
 				setResp,
 				updateLoadingState,
 			});
@@ -68,9 +80,10 @@ const SearchProductPage = () => {
 						autoComplete="off"
 						onSubmit={handleSubmit(({ searchWord, category }) => {
 							searchProductsHandler({ searchWord, category, setResp, updateLoadingState });
-							navigate(
-								`/szukaj/${slugifyString(categoriesArr.find((el) => el.key === category).name)}`
-							);
+							category &&
+								navigate(
+									`/szukaj/${slugifyString(categoriesArr.find((el) => el.key === category).name)}`
+								);
 						})}
 						sx={{
 							width: "100%",
@@ -97,7 +110,7 @@ const SearchProductPage = () => {
 							errorsObj={errors}
 							label="zacznij szukać"
 							alertText=""
-							defaultValue={""}
+							defaultValue={initialSearchValue.current || ""}
 							sx={{ flexGrow: 2, minWidth: { xs: "100%", sm: "100px" } }}
 						/>
 						<Button type="submit" variant="contained">
@@ -106,7 +119,6 @@ const SearchProductPage = () => {
 					</Box>
 				</SectionWrapper>
 			</Grid>
-			{/* TODO: pagination with RTK query? */}
 			<Grid item sx={{ display: "flex", flexGrow: 2, minHeight: "30vh", height: "100%" }}>
 				<SectionWrapper
 					sx={{
@@ -157,7 +169,7 @@ const SearchProductPage = () => {
 					)}
 					{compareState(loadingStates.empty) && (
 						<Typography sx={textStyles}>
-							Wpisz szukaną frazę lub kategorię by wyświetlić wyniki.
+							Wpisz szukaną frazę (min. 3 znaki) lub kategorię by wyświetlić wyniki.
 						</Typography>
 					)}
 				</SectionWrapper>

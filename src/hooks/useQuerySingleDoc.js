@@ -10,19 +10,20 @@ const useQuerySingleDoc = ({ docRef, updateLoadingStateFn }) => {
 	useEffect(() => {
 		(async () => {
 			updateLoadingStateFn && updateLoadingStateFn(loadingStates.isLoading);
-			const docSnap = await getDoc(docRef);
+			if (docRef) {
+				const docSnap = await getDoc(docRef);
 
-			if (docSnap.exists()) {
-				// console.log(docSnap.data());
-				setDocData(docSnap.data());
-				updateLoadingStateFn && updateLoadingStateFn(loadingStates.hasLoaded);
-			} else {
-				console.error("Error with fetching product data");
-				setDocData(loadingStates.hasError);
-				updateLoadingStateFn && updateLoadingStateFn(loadingStates.hasError);
+				if (docSnap.exists()) {
+					setDocData(docSnap.data());
+					updateLoadingStateFn && updateLoadingStateFn(loadingStates.hasLoaded);
+				} else {
+					console.error("Error with fetching product data");
+					setDocData(loadingStates.hasError);
+					updateLoadingStateFn && updateLoadingStateFn(loadingStates.hasError);
+				}
 			}
 		})();
-	}, []);
+	}, [docRef]);
 
 	return docData;
 };

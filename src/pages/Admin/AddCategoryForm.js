@@ -35,12 +35,8 @@ const AddCategoryForm = () => {
 		try {
 			addDoc(catRef, catObject).then(() => {
 				setUploadSuccess(true);
-
 				reset();
-				// FIXME: after 7.5s success alert should disappear
-				setTimeout(() => {
-					setUploadSuccess(null);
-				}, 7500);
+				setTimeout(() => setUploadSuccess(null), 7500);
 			});
 		} catch (err) {
 			setUploadSuccess(false);

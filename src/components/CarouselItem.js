@@ -1,11 +1,15 @@
 import { Card, CardMedia, CardContent } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
-const CarouselItem = ({ children, img, imgAlt = "" }) => {
+const CarouselItem = ({ children, img, imgAlt = "", path = "" }) => {
 	return (
 		<Card
+			component={RouterLink}
+			to={path}
 			elevation={0}
 			sx={{
 				padding: "0 5px",
+				textDecoration: "none",
 			}}
 		>
 			<CardMedia
@@ -14,10 +18,11 @@ const CarouselItem = ({ children, img, imgAlt = "" }) => {
 				alt={imgAlt}
 				sx={{
 					objectFit: "contain",
-					width: " 100%",
+					width: "100%",
 					minHeight: "160px",
 					height: "20vw",
 					maxHeight: "300px",
+					borderRadius: 2,
 				}}
 			/>
 			<CardContent

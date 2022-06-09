@@ -29,8 +29,8 @@ const LoginTab = () => {
 	useEffect(() => {
 		// after sign in as admin redirect to /admin route
 		isAdmin && navigate("/admin");
-		// after sign in as user redirect to home page
-		isLoggedIn && !isAdmin && navigate("/");
+		// after sign in as user redirect to previous page
+		isLoggedIn && !isAdmin && navigate(-1);
 	});
 
 	const submitHandler = ({ email, password }) => {

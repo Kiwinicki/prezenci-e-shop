@@ -1,4 +1,3 @@
-import { useEffect, useRef } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { Typography } from "@mui/material";
 
@@ -11,9 +10,11 @@ import Loader from "../../components/Loader";
 import CarouselItem from "../../components/CarouselItem";
 import Carousel from "../../components/Carousel";
 import SectionEndButton from "../../components/SectionEndButton";
+import slugifyString from "../../utils/slugifyString";
 
 const UpcomingHolidayProducts = () => {
 	const upcomingHolidayObj = useSelector((state) => state.upcomingHoliday.value);
+	const categories = useSelector((state) => state.categories.value);
 
 	const productArr = useQueryDocs({
 		ref: prodRef,
@@ -27,24 +28,37 @@ const UpcomingHolidayProducts = () => {
 		<>
 			{productArr?.length > 0 ? (
 				<Carousel>
-					{productArr.map((prod, i) => (
-						<CarouselItem img={prod.imgURLs[0]} imgAlt="zdjęcie produktu" key={i}>
-							<Typography
-								variant="h4"
-								sx={{ fontWeight: "bold", color: "primary.dark", textAlign: "center" }}
+					{productArr.map((prod, i) => {
+						const categorySlug =
+							(categories.length !== 0 && categories.find((el) => el.key === prod.category).slug) ||
+							"";
+
+						return (
+							<CarouselItem
+								path={`/szukaj/${categorySlug}/${prod.id}`}
+								img={prod.imgURLs[0]}
+								imgAlt="zdjęcie produktu"
+								key={i}
 							>
-								{prod.price}
-							</Typography>
-							<Typography sx={{ fontWeight: "bold", textAlign: "center" }}>{prod.name}</Typography>
-						</CarouselItem>
-					))}
+								<Typography
+									variant="h4"
+									sx={{ fontWeight: "bold", color: "primary.dark", textAlign: "center" }}
+								>
+									{prod.price}
+								</Typography>
+								<Typography sx={{ fontWeight: "bold", textAlign: "center" }}>
+									{prod.name}
+								</Typography>
+							</CarouselItem>
+						);
+					})}
 				</Carousel>
 			) : productArr?.length === 0 ? (
 				<Loader />
 			) : (
 				<Typography>Nie udało się pobrać produktów</Typography>
 			)}
-			<SectionEndButton component={RouterLink} to="/kategorie">
+			<SectionEndButton component={RouterLink} to={`szukaj/${upcomingHolidayObj.slug || ""}`}>
 				Zobacz więcej
 			</SectionEndButton>
 		</>

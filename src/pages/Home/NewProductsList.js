@@ -6,9 +6,6 @@ import useQueryDocs from "../../hooks/useQueryDocs";
 // firebase stuff
 import { prodRef } from "../../firebase-config";
 
-// utility functions
-import slugifyString from "../../utils/slugifyString";
-
 // custom components
 import Loader from "../../components/Loader";
 import ProductCard from "../../components/ProductCard";
@@ -43,9 +40,9 @@ const NewProductsList = () => {
 						}}
 					>
 						{productArr.map((prod) => {
-							const categoryName =
+							const categorySlug =
 								(categories.length !== 0 &&
-									categories.find((el) => el.key === prod.category).name) ||
+									categories.find((el) => el.key === prod.category).slug) ||
 								"";
 
 							return (
@@ -53,7 +50,7 @@ const NewProductsList = () => {
 									img={prod.imgURLs[0]}
 									price={prod.price}
 									name={prod.name}
-									path={`/szukaj/${slugifyString(categoryName)}/${prod.id}`}
+									path={`/szukaj/${categorySlug}/${prod.id}`}
 									key={`${prod.id}`}
 								/>
 							);
