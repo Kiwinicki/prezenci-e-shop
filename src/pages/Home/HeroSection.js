@@ -32,7 +32,6 @@ const HeroSection = () => {
 			<HeroHeading component="h2" variant="h3">
 				Prezenty na każdą okazję!
 			</HeroHeading>
-			{/* TODO: scroll down or move to another page */}
 			<Button
 				component={RouterLink}
 				to="/szukaj"

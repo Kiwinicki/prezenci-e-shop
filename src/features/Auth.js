@@ -37,7 +37,6 @@ export const authSlice = createSlice({
 
 			const userRef = doc(db, "users", auth.currentUser.uid);
 			updateDoc(userRef, newValues);
-
 			state = { ...state, ...newValues };
 			return state;
 		},

@@ -52,8 +52,6 @@ function App() {
 	});
 	const themeWithResponsiveFonts = responsiveFontSizes(theme);
 
-	// TODO: privacy policy page
-
 	return (
 		<ErrorBoundary>
 			<ThemeProvider theme={themeWithResponsiveFonts}>

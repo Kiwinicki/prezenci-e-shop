@@ -11,6 +11,7 @@ const EditableInfoField = ({
 	registerFn,
 	isFieldEdited,
 	fieldToggler,
+	required = false,
 }) => {
 	return (
 		<>
@@ -29,6 +30,7 @@ const EditableInfoField = ({
 					label={inputLabel}
 					defaultValue=""
 					registerFn={registerFn}
+					required={required}
 				/>
 			)}
 		</>

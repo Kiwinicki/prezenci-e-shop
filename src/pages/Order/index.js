@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Stepper, Step, StepLabel, Box, Typography, Button, List, ListItem } from "@mui/material";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "react-hook-form";
 
 import SectionWrapper from "../../components/SectionWrapper";
@@ -8,10 +8,12 @@ import SectionHeading from "../../components/SectionHeading";
 import SelectedProductsList from "./SelectedProductsList";
 import PaymentMethod from "./PaymentMethod";
 import ShipmentDetails from "./ShipmentDetails";
-import useToggle from "../../hooks/useToggle";
+
+import { updateAuthState } from "../../features/Auth";
 
 const OrderPage = () => {
 	const userInfo = useSelector((state) => state.auth);
+	const dispatch = useDispatch();
 
 	const productsInCart = useSelector((state) => state.cart.value);
 	const sumToPay = Object.values(productsInCart).reduce(
@@ -24,7 +26,6 @@ const OrderPage = () => {
 		control,
 		handleSubmit,
 		formState: { errors },
-		reset,
 	} = useForm();
 
 	const [formData, setFormData] = useState(null);
@@ -33,6 +34,7 @@ const OrderPage = () => {
 	const onSubmit = (data) => {
 		console.log(data);
 		setFormData(data);
+		dispatch(updateAuthState({ address: data.address, phone: data.phone }));
 		setCurrentStep((prevStep) => prevStep + 1);
 	};
 
@@ -68,7 +70,7 @@ const OrderPage = () => {
 				/>
 			)}
 			{currentStep === 2 && (
-				<SecondStepContent {...{ formData, products: productsInCart, sumToPay }} />
+				<SecondStepContent {...{ formData, products: productsInCart, sumToPay, userInfo }} />
 			)}
 		</SectionWrapper>
 	);
@@ -164,13 +166,17 @@ const FirstStepContent = ({
 	</Box>
 );
 
-const SecondStepContent = ({ formData, products, sumToPay }) => (
+const SecondStepContent = ({ formData, products, sumToPay, userInfo }) => (
 	<Box sx={{ ...paperStyles, gap: 2, display: "flex", flexDirection: "column" }}>
 		<Typography sx={{ textAlign: "center" }}>
 			Dziękujemy za zakupy! Zamówienie zostało złożone do realizacji. Oto krótkie podsumowanie:
 		</Typography>
-		<Typography>Suma do zapłaty: {sumToPay}</Typography>
+		<Typography>Suma do zapłaty: {sumToPay} zł</Typography>
 		<Typography>Forma płatności: {formData.payment}</Typography>
+		<Typography>Adres dostawy: ul. {userInfo.address}</Typography>
+		{formData.invoice && (
+			<Typography>Faktura została wysłana na adres e-mail (tak serio to nie)</Typography>
+		)}
 		<Typography>Zamówione produkty:</Typography>
 		<List>
 			{Object.entries(products).map(([key, prod]) => (

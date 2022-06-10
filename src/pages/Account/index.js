@@ -30,6 +30,12 @@ const AccountPage = () => {
 	const [isAddressEdited, toggleAddressEditing] = useToggle(false);
 	const [isPhoneEdited, togglePhoneEditing] = useToggle(false);
 
+	const submitHandler = (values) => {
+		dispatch(updateAuthState(values));
+		toggleAddressEditing(false);
+		togglePhoneEditing(false);
+	};
+
 	return (
 		<SectionWrapper>
 			<SectionHeading>Konto</SectionHeading>
@@ -51,11 +57,7 @@ const AccountPage = () => {
 					sm={6}
 					sx={{ display: "flex", flexDirection: "column", gap: 1, alignItems: "flex-start" }}
 					component="form"
-					onSubmit={handleSubmit((values) => {
-						dispatch(updateAuthState(values));
-						toggleAddressEditing(false);
-						togglePhoneEditing(false);
-					})}
+					onSubmit={handleSubmit(submitHandler)}
 				>
 					<Typography variant="h6">Edytuj dane kontaktowe</Typography>
 					<EditableInfoField
