@@ -1,9 +1,14 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { Breadcrumbs, Typography, Link, Button, Box, styled } from "@mui/material";
+import { Breadcrumbs, Typography, Link, Button, Box, styled, IconButton } from "@mui/material";
 import { useParams, Link as RouterLink, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { doc } from "firebase/firestore";
+
+import { Carousel as ImageCarousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
 import { db, prodRef } from "../../firebase-config";
 
@@ -102,10 +107,48 @@ const Product = () => {
 			>
 				{/* Product image/s */}
 				<Box sx={{ gridArea: "img", display: "flex", justifyContent: "center" }}>
-					{/* TODO: slider ze zdjęciami */}
 					<LoadingStateManager
 						compareStateFn={compareProdState}
-						hasLoadedComponent={<StyledImg src={productData?.imgURLs[0]} alt="" />}
+						hasLoadedComponent={
+							productData?.imgURLs?.length > 0 ? (
+								<ImageCarousel
+									showStatus={false}
+									labels={{ leftArrow: "poprzednie zdjęcie", rightArrow: "następne zdjęcie" }}
+									renderArrowNext={(onClickHandler, hasPrev, label) =>
+										hasPrev && (
+											<IconButton
+												onClick={onClickHandler}
+												title={label}
+												sx={{ position: "absolute", zIndex: 1, top: "50%", right: "0" }}
+											>
+												<ArrowForwardIosIcon />
+											</IconButton>
+										)
+									}
+									renderArrowPrev={(onClickHandler, hasNext, label) =>
+										hasNext && (
+											<IconButton
+												onClick={onClickHandler}
+												title={label}
+												sx={{ position: "absolute", zIndex: 1, top: "50%" }}
+											>
+												<ArrowBackIosNewIcon />
+											</IconButton>
+										)
+									}
+								>
+									{productData?.imgURLs?.map((src, i) => (
+										<Box>
+											<StyledImg src={src} alt={`zdjęcie ${productData.name}`} key={i} />
+										</Box>
+									))}
+								</ImageCarousel>
+							) : productData?.imgURLs?.length === 0 ? (
+								<Loader />
+							) : (
+								<Typography>Nie udało się pobrać zdjęć produktu</Typography>
+							)
+						}
 					/>
 				</Box>
 				{/* Product name */}
@@ -268,9 +311,9 @@ const Product = () => {
 export default Product;
 
 const StyledImg = styled("img")({
-	width: "100%",
-	maxWidth: "450px",
-	margin: "0 auto",
+	// maxWidth: "450px",
+	maxHeight: "350px",
+	objectFit: "contain",
 });
 
 const LoadingStateManager = ({
