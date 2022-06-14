@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/prezencik-e-shop/static/css/main.f40e81d6.css",
-    "main.js": "/prezencik-e-shop/static/js/main.81980458.js",
+    "main.css": "/prezencik-e-shop/static/css/main.e3fe5737.css",
+    "main.js": "/prezencik-e-shop/static/js/main.77e15d8c.js",
     "static/media/logo.svg": "/prezencik-e-shop/static/media/logo.8bec00cc494fbc96523bf3f59003e1b3.svg",
     "static/media/hero.webp": "/prezencik-e-shop/static/media/hero.67fa938195627044ddc5.webp",
+    "static/media/empty-cart.svg": "/prezencik-e-shop/static/media/empty-cart.4bad6d274af79c481119c2cef4aa6ec8.svg",
     "index.html": "/prezencik-e-shop/index.html",
-    "main.f40e81d6.css.map": "/prezencik-e-shop/static/css/main.f40e81d6.css.map",
-    "main.81980458.js.map": "/prezencik-e-shop/static/js/main.81980458.js.map"
+    "main.e3fe5737.css.map": "/prezencik-e-shop/static/css/main.e3fe5737.css.map",
+    "main.77e15d8c.js.map": "/prezencik-e-shop/static/js/main.77e15d8c.js.map"
   },
   "entrypoints": [
-    "static/css/main.f40e81d6.css",
-    "static/js/main.81980458.js"
+    "static/css/main.e3fe5737.css",
+    "static/js/main.77e15d8c.js"
   ]
 }

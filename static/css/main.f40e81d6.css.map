@@ -1,1 +1,0 @@
-{"version":3,"file":"static/css/main.f40e81d6.css","mappings":"AACA,MAEC,YAAa,CACb,qBAAsB,CAFtB,YAGD","sources":["index.css"],"sourcesContent":["/* styles for sticky footer */\r\n#root {\r\n\theight: 100vh;\r\n\tdisplay: flex;\r\n\tflex-direction: column;\r\n}\r\n"],"names":[],"sourceRoot":""}
