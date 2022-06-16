@@ -6,21 +6,22 @@ const UploadButton = ({
 	name,
 	buttonText = "",
 	alertText = "Wybierz plik",
-	multiple,
+	multiple = false,
 	acceptFileTypes = "",
 	required,
 }) => {
-	const uniqeID = `file-upload-btn`;
+	const uniqueID = `file-upload-btn`;
+	const register = () => registerFn(name, { ...(required && { required: true }) });
 
 	return (
 		<>
-			<UploadLabel htmlFor={uniqeID}>
+			<UploadLabel htmlFor={uniqueID}>
 				<HiddenInput
-					{...registerFn(name, { ...(required && { required: true }) })}
+					{...register()}
 					accept={acceptFileTypes}
-					id={uniqeID}
+					id={uniqueID}
 					type="file"
-					{...(multiple && { multiple: true })}
+					multiple={multiple}
 				/>
 				<Button variant="contained" component="span">
 					{buttonText}

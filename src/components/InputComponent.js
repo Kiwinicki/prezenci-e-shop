@@ -18,7 +18,7 @@ const InputComponent = ({
 			{...other}
 		/>
 		{required && errorsObj[name] && (
-			<Alert severity="warning">{alertText !== "" ? alertText : "Pole wymagane"}</Alert>
+			<Alert severity="warning">{alertText && "Pole wymagane"}</Alert>
 		)}
 	</>
 );
