@@ -18,12 +18,12 @@ import slugifyString from "../../utils/slugifyString";
 const AddCategoryForm = () => {
 	const [uploadSuccess, setUploadSuccess] = useState(null);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		reset,
-	} = useForm();
+	const { control, handleSubmit, reset } = useForm({
+		defaultValues: {
+			name: "",
+			key: "",
+		},
+	});
 
 	const onSubmit = ({ name, key }) => {
 		const catObject = {
@@ -44,13 +44,6 @@ const AddCategoryForm = () => {
 		}
 	};
 
-	const commonInputsProps = {
-		registerFn: register,
-		errorsObj: errors,
-		required: true,
-		defaultValue: "",
-	};
-
 	return (
 		<SectionWrapper>
 			<SectionHeading>Dodaj kategorię</SectionHeading>
@@ -63,17 +56,17 @@ const AddCategoryForm = () => {
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}>
 					<InputComponent
 						name="name"
-						{...commonInputsProps}
+						control={control}
+						requiredAlert="Nazwa kategorii jest wymagana"
 						label="nazwa kategorii:"
-						alertText="Nazwa kategorii jest wymagana"
 					/>
 					<InputComponent
 						name="key"
-						{...commonInputsProps}
+						control={control}
 						label="Klucz kategorii:"
-						placeholder="CATEGORY_KEY"
-						alertText={`Klucz kategorii jest wymagany. Musi składać się wyłącznie z wielkich liter lub znaku "_".`}
+						requiredAlert={`Klucz kategorii jest wymagany. Musi składać się wyłącznie z wielkich liter lub znaku "_".`}
 						inputProps={{ pattern: "[A-Z_]{1,}" }}
+						placeholder="CATEGORY_KEY"
 					/>
 				</Box>
 				<SectionEndButton type="submit">Dodaj kategorię</SectionEndButton>

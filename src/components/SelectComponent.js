@@ -1,31 +1,30 @@
-import { TextField, MenuItem, Alert } from "@mui/material";
+import { TextField, MenuItem } from "@mui/material";
+import { WarningAlert } from "./WarningAlert";
+import { Controller } from "react-hook-form";
 
-const SelectComponent = ({
-	registerFn,
-	errorsObj = {},
-	name,
-	alertText = "Pole wymagane",
-	optionsArr = [],
-	required,
-	...other
-}) => {
-	return (
-		<>
-			<TextField
-				select
-				{...registerFn(name, required && { required: true })}
-				{...(required && required)}
-				{...other}
-			>
-				{optionsArr.map((option, i) => (
-					<MenuItem value={option.key} key={option.id || i}>
-						{option.name}
-					</MenuItem>
-				))}
-			</TextField>
-			{errorsObj[name] && <Alert severity="warning">{alertText}</Alert>}
-		</>
-	);
-};
+const SelectComponent = ({ name, control, requiredAlert = "", optionsArr = [], ...other }) => (
+	<Controller
+		render={({ field, fieldState: { error } }) => (
+			<>
+				<TextField
+					select
+					{...field}
+					// {...(requiredAlert && { required: true })}
+					{...other}
+				>
+					{optionsArr.map((option, i) => (
+						<MenuItem value={option.key} key={option.id || i}>
+							{option.name}
+						</MenuItem>
+					))}
+				</TextField>
+				{error && <WarningAlert message={requiredAlert} />}
+			</>
+		)}
+		name={name}
+		control={control}
+		rules={{ required: !!requiredAlert }}
+	/>
+);
 
 export default SelectComponent;

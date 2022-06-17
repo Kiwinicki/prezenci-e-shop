@@ -29,16 +29,15 @@ export const authSlice = createSlice({
 			state.lastLogin = action.payload.lastLogin;
 		},
 		updateAuthState: (state, action) => {
-			// filter values which are non-empty (undefined, "", etc.)
 			const newValues = {};
 			for (const [key, val] of Object.entries(action.payload)) {
-				!!val && (newValues[key] = val);
+				if (val) newValues[key] = val;
 			}
 
 			const userRef = doc(db, "users", auth.currentUser.uid);
 			updateDoc(userRef, newValues);
-			state = { ...state, ...newValues };
-			return state;
+			const newState = { ...state, ...newValues };
+			return newState;
 		},
 	},
 });
@@ -47,7 +46,9 @@ export const changeAuthState = () => (dispatch) => {
 	onAuthStateChanged(auth, async (user) => {
 		if (user === null) {
 			dispatch(setAuthState(initialState));
-		} else {
+		}
+
+		try {
 			const userAdditionalData = await getDoc(doc(db, "users", user.uid));
 			const userObj = userAdditionalData.data();
 			const isAdmin = userObj.userRole === "admin" ? true : false;
@@ -64,6 +65,8 @@ export const changeAuthState = () => (dispatch) => {
 					lastLogin: user.metadata.lastLoginAt,
 				})
 			);
+		} catch (error) {
+			console.log(error);
 		}
 	});
 };

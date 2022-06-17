@@ -4,12 +4,12 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Login as Admin
 
-e-mail: admin1@wp.pl
+e-mail: admin1@wp.pl\
 password: admin12345
 
 ## Login as User (**you can also create new account as user**)
 
-e-mail: user1@wp.pl
+e-mail: user1@wp.pl\
 password: user12345
 
 ## What I learned:

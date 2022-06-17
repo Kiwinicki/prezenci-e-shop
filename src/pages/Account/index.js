@@ -9,7 +9,7 @@ import EditableInfoField from "../../components/EditableInfoField";
 import useToggle from "../../hooks/useToggle";
 // Redux
 import { updateAuthState } from "../../features/Auth";
-import accountExistenceTime from "../../utils/accountExistenceTime";
+import getAccountExistenceTime from "../../utils/getAccountExistenceTime";
 
 const AccountPage = () => {
 	const { address, phone, email, userName, lastLogin, creationTime } = useSelector(
@@ -24,8 +24,8 @@ const AccountPage = () => {
 	const lastLoginDate = new Date(parseInt(lastLogin)).toLocaleDateString();
 	const lastLoginTime = new Date(parseInt(lastLogin)).toLocaleTimeString();
 
-	const { accountExstDays, accountExstMonths, accountExstYears } =
-		accountExistenceTime(creationDate);
+	const { accountExistDays, accountExistMonths, accountExistYears } =
+		getAccountExistenceTime(creationDate);
 
 	const [isAddressEdited, toggleAddressEditing] = useToggle(false);
 	const [isPhoneEdited, togglePhoneEditing] = useToggle(false);
@@ -46,9 +46,9 @@ const AccountPage = () => {
 				<Grid item xs={12} sm={6}>
 					<Typography variant="h5">Jesteś z nami: </Typography>
 					<Typography variant="h5" sx={{ color: "primary.main" }}>
-						{accountExstYears > 0 && `${accountExstYears} lat`}{" "}
-						{accountExstMonths > 0 && `${accountExstMonths} miesięcy`}{" "}
-						{accountExstDays > 0 && `${accountExstDays} dni`}
+						{accountExistYears > 0 && `${accountExistYears} lat`}{" "}
+						{accountExistMonths > 0 && `${accountExistMonths} miesięcy`}{" "}
+						{accountExistDays > 0 && `${accountExistDays} dni`}
 					</Typography>
 				</Grid>
 				<Grid

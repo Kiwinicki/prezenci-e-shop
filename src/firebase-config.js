@@ -5,7 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-	apiKey: "AIzaSyADUftELX3KWBT3_BYHZzljd4_9fc7TvNs",
+	apiKey: process.env.REACT_APP_API_KEY,
 	authDomain: "prezencik-e-shop.firebaseapp.com",
 	databaseURL: "https://prezencik-e-shop-default-rtdb.europe-west1.firebasedatabase.app",
 	projectId: "prezencik-e-shop",

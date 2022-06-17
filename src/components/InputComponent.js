@@ -1,25 +1,40 @@
-import { TextField, Alert } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
+import { WarningAlert } from "./WarningAlert";
 
 const InputComponent = ({
-	registerFn,
-	errorsObj = {},
 	name,
-	alertText = "",
+	control,
 	inputProps = {},
-	required = false,
+	requiredAlert = "",
+	label = "",
+	placeholder = "",
 	...other
-}) => (
-	<>
-		<TextField
-			{...registerFn(name, required && { required: true })}
-			variant="standard"
-			inputProps={inputProps}
-			{...(required && required)}
-			{...other}
+}) => {
+	return (
+		<Controller
+			render={({ field, fieldState: { error } }) => (
+				<>
+					<TextField
+						{...field}
+						variant="standard"
+						inputProps={inputProps}
+						// FIXME: nie działa połączenie vanila i customowej walidacji
+						// {...(requiredAlert && { required: true })}
+						label={label}
+						error={!!error}
+						helperText={requiredAlert}
+						placeholder={placeholder}
+						{...other}
+					/>
+					{console.log(!!error)}
+					{error && <WarningAlert message={requiredAlert} />}
+				</>
+			)}
+			name={name}
+			control={control}
+			rules={{ required: requiredAlert }}
 		/>
-		{required && errorsObj[name] && (
-			<Alert severity="warning">{alertText && "Pole wymagane"}</Alert>
-		)}
-	</>
-);
+	);
+};
 export default InputComponent;

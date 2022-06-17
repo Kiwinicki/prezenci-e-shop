@@ -18,12 +18,11 @@ import SectionHeading from "../../components/SectionHeading";
 const ChangeUpcomingHoliday = () => {
 	const [updateSucces, setUpdateSuccess] = useState(null);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-		reset,
-	} = useForm();
+	const { control, handleSubmit, reset } = useForm({
+		defaultValues: {
+			holiday_key: "",
+		},
+	});
 
 	const onSubmit = ({ holiday_key }) => {
 		const holidayKeyRef = doc(db, "upcoming_holiday", "upcoming_holiday");
@@ -41,23 +40,15 @@ const ChangeUpcomingHoliday = () => {
 			reset();
 			setTimeout(() => setUpdateSuccess(null), 7500);
 		}
-
 		updateHolidayKey();
 	};
 
-	// getting categories list from redux
 	const categoriesList = useSelector((state) => state.categories.value);
 	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(getCategoriesList());
 	}, []);
-
-	const commonInputsProps = {
-		registerFn: register,
-		errorsObj: errors,
-		required: true,
-	};
 
 	return (
 		<SectionWrapper>
@@ -71,11 +62,10 @@ const ChangeUpcomingHoliday = () => {
 				<Box sx={{ display: "flex", flexDirection: "column", gap: 2, px: 2, pb: 2 }}>
 					<SelectComponent
 						name="holiday_key"
-						{...commonInputsProps}
+						control={control}
 						label="Kategoria zbliżającego się święta:"
-						alertText="Podanie kategorii jest wymagane"
+						requiredAlert="Podanie kategorii jest wymagane"
 						optionsArr={categoriesList}
-						defaultValue={""}
 					/>
 				</Box>
 				<SectionEndButton type="submit">Zmień okazję</SectionEndButton>

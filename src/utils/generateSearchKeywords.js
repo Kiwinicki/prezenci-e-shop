@@ -3,23 +3,25 @@
  * @returns {Array}
  */
 const generateSearchKeywords = (str) => {
+	const whitespacesAndcommas = /\s|,/;
+
 	const wordsArr = str
 		.toLowerCase()
-		.split(/\s|,/)
+		.split(whitespacesAndcommas)
 		.filter((el) => el.length > 1);
 
-	const keywordsArr = [];
-
-	wordsArr.forEach((word) => {
-		// for loop starts from 2 because i don't need 1 char strings
+	const keywordsArr = wordsArr.map((word) => {
+		const keywordsFromOneWord = [];
+		// loop starts from 2 because i don't need 2 char strings
 		for (let i = 2; i <= word.length; i++) {
-			keywordsArr.push(word.slice(0, i));
+			keywordsFromOneWord.push(word.slice(0, i));
 		}
+		return keywordsFromOneWord;
 	});
 
-	const uniqeKeywordsArr = [...new Set(keywordsArr)];
+	const uniqueKeywordsArr = [...new Set(keywordsArr)];
 
-	return uniqeKeywordsArr;
+	return uniqueKeywordsArr;
 };
 
 export default generateSearchKeywords;
