@@ -1,41 +1,35 @@
 import { Button, styled } from "@mui/material";
-import { Controller } from "react-hook-form";
 import { WarningAlert } from "./WarningAlert";
 
 const UploadButton = ({
 	name,
-	control,
+	registerFn,
+	errors,
 	buttonText = "",
 	requiredAlert = "",
 	acceptFileTypes = "",
 	multiple = false,
 }) => {
 	const uniqueID = "file-upload-btn";
-	// FIXME: gdy dodam to wywala kilkanaście pustych paragrafów
-	// FIXME: gdy dodam to alert nie znika
+	const register = () => registerFn(name, { ...(requiredAlert && { required: requiredAlert }) });
+
 	return (
-		<Controller
-			render={({ field, fieldState: { error } }) => (
-				<>
-					<UploadLabel htmlFor={uniqueID}>
-						<HiddenInput
-							{...field}
-							accept={acceptFileTypes}
-							id={uniqueID}
-							type="file"
-							multiple={multiple}
-						/>
-						<Button variant="contained" component="span">
-							{buttonText}
-						</Button>
-					</UploadLabel>
-					{error && <WarningAlert message={requiredAlert} />}
-				</>
-			)}
-			name={name}
-			control={control}
-			rules={{ required: !!requiredAlert }}
-		/>
+		<>
+			<UploadLabel htmlFor={uniqueID}>
+				<HiddenInput
+					type="file"
+					{...register()}
+					id={uniqueID}
+					multiple={multiple}
+					accept={acceptFileTypes}
+					required={!!requiredAlert}
+				/>
+				<Button variant="contained" component="span">
+					{buttonText}
+				</Button>
+			</UploadLabel>
+			{errors && <WarningAlert message={requiredAlert} />}
+		</>
 	);
 };
 

@@ -9,7 +9,7 @@ const FormContainer = ({
 	sx,
 }) => {
 	return (
-		<Box component="form" autoComplete="off" onSubmit={onSubmit} sx={sx}>
+		<Box component="form" autoComplete="off" noValidate onSubmit={onSubmit} sx={sx}>
 			{children}
 			{formSubmitState === true ? (
 				<Alert severity="success">{submitSuccessText}</Alert>
