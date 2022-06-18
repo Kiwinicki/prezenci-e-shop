@@ -6,7 +6,7 @@ const initialState = {
 	value: JSON.parse(localStorage.getItem(name)) || {},
 };
 
-const synchronizeReduxWithLS = (state) => localStorage.setItem(name, JSON.stringify(state.value));
+const saveReduxToLS = (state) => localStorage.setItem(name, JSON.stringify(state.value));
 
 export const cartSlice = createSlice({
 	name,
@@ -23,27 +23,26 @@ export const cartSlice = createSlice({
 					[prodId]: { ...action.payload[prodId], amount: 1 },
 				};
 			}
-			synchronizeReduxWithLS(state);
+			saveReduxToLS(state);
 		},
 		decreaseProductAmountInCart: (state, action) => {
 			const prodId = Object.keys(action.payload)[0];
 			if (state.value.hasOwnProperty(prodId)) {
 				if (state.value[prodId].amount <= 1) {
-					// if product amount is <= 1 delete product object
 					delete state.value[prodId];
 				} else {
 					state.value[prodId].amount--;
 				}
 			}
-			synchronizeReduxWithLS(state);
+			saveReduxToLS(state);
 		},
 		clearCart: (state) => {
 			state.value = {};
-			synchronizeReduxWithLS(state);
+			saveReduxToLS(state);
 		},
 		removeProductFromCart: (state, action) => {
 			delete state.value[action.payload]; // action.payload is product key string
-			synchronizeReduxWithLS(state);
+			saveReduxToLS(state);
 		},
 	},
 });

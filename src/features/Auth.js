@@ -30,14 +30,13 @@ export const authSlice = createSlice({
 		},
 		updateAuthState: (state, action) => {
 			const newValues = {};
-			for (const [key, val] of Object.entries(action.payload)) {
+			Object.entries(action.payload).forEach(([key, val]) => {
 				if (val) newValues[key] = val;
-			}
+			});
 
 			const userRef = doc(db, "users", auth.currentUser.uid);
 			updateDoc(userRef, newValues);
-			const newState = { ...state, ...newValues };
-			return newState;
+			return { ...state, ...newValues };
 		},
 	},
 });
@@ -46,6 +45,7 @@ export const changeAuthState = () => (dispatch) => {
 	onAuthStateChanged(auth, async (user) => {
 		if (user === null) {
 			dispatch(setAuthState(initialState));
+			return;
 		}
 
 		try {
@@ -66,7 +66,7 @@ export const changeAuthState = () => (dispatch) => {
 				})
 			);
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 		}
 	});
 };
