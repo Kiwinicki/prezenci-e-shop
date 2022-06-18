@@ -30,12 +30,11 @@ const searchProductsHandler = ({ searchWord = "", category, updateLoadingState, 
 	getDocs(q)
 		.then((querySnap) => {
 			let tempArr = [];
-			console.log("querySnap", querySnap);
 
 			if (!querySnap.empty) {
 				querySnap.forEach((el) => tempArr.push({ ...el.data(), id: el.id }));
 				updateLoadingState(loadingStates.hasLoaded);
-				setResp(tempArr); // if successfully downloaded set array with item/s
+				setResp(tempArr);
 			} else {
 				// firebase don't throw error when connection failed, so I must check if the data is from cache
 				if (querySnap.metadata.fromCache) {

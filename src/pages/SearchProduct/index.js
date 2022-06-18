@@ -46,11 +46,12 @@ const SearchProductPage = () => {
 
 	const initialSearchValue = useRef(state?.searchWord);
 
-	const {
-		register,
-		handleSubmit,
-		formState: { errors },
-	} = useForm();
+	const { control, handleSubmit } = useForm({
+		defaultValues: {
+			searchWord: initialSearchValue.current || "",
+			category: defaultSelectValue.current,
+		},
+	});
 
 	useEffect(() => {
 		// if page was opened from category link fetch data on first render
@@ -96,21 +97,15 @@ const SearchProductPage = () => {
 					>
 						<SelectComponent
 							name="category"
-							registerFn={register}
-							errorsObj={errors}
+							control={control}
 							label="kategoria produktu:"
-							alertText=""
 							optionsArr={categoriesArr}
-							defaultValue={defaultSelectValue.current}
 							sx={{ minWidth: { xs: "100%", sm: "200px" } }}
 						/>
 						<InputComponent
 							name="searchWord"
-							registerFn={register}
-							errorsObj={errors}
+							control={control}
 							label="zacznij szukać"
-							alertText=""
-							defaultValue={initialSearchValue.current || ""}
 							sx={{ flexGrow: 2, minWidth: { xs: "100%", sm: "100px" } }}
 						/>
 						<Button type="submit" variant="contained">

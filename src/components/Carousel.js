@@ -1,45 +1,17 @@
-import React, { useState } from "react";
-import { Box, IconButton, Stack, styled, useMediaQuery } from "@mui/material";
+import { Box, IconButton, Stack, styled } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-import useActualBreakpoint from "../hooks/useActualBreakpoint";
+import { useCarousel } from "../hooks/useCarousel";
 
 const Carousel = ({ children }) => {
-	const [index, setIndex] = useState(0);
-
-	const isTouchscreen = useMediaQuery("(hover: none)");
-
-	const [breakpointKey, breakpointVal] = useActualBreakpoint();
-
-	const breakpontItemCount = {
-		xs: 2,
-		sm: 4,
-		md: 4,
-		lg: 5,
-		xl: 5,
-	};
-
-	const nbrOfItemsFittingOnScreen = breakpontItemCount[breakpointKey];
-
-	const moveForward = () => {
-		setIndex((prevIndex) => {
-			if (prevIndex < children.length - nbrOfItemsFittingOnScreen) {
-				return prevIndex + 1;
-			}
-			if (prevIndex >= children.length - nbrOfItemsFittingOnScreen) {
-				return prevIndex;
-			}
-		});
-	};
-
-	const moveBack = () => {
-		setIndex((prevIndex) => (prevIndex <= 0 ? 0 : prevIndex - 1));
-	};
+	const { moveBack, moveForward, index, itemsOnScreen, isTouchscreen } = useCarousel(
+		children.length
+	);
 
 	return (
 		<CarouselWrapper>
-			{!isTouchscreen && children.length > nbrOfItemsFittingOnScreen && (
+			{!isTouchscreen && children.length > itemsOnScreen && (
 				<NavButton back clickHandler={moveBack} />
 			)}
 			<Box
@@ -51,13 +23,13 @@ const Carousel = ({ children }) => {
 			>
 				<ItemsList
 					style={{
-						"--transform": `translateX(calc(${-1 * index} * ${100 / nbrOfItemsFittingOnScreen}%))`,
+						"--transform": `translateX(calc(${-1 * index} * ${100 / itemsOnScreen}%))`,
 					}}
 				>
 					{children}
 				</ItemsList>
 			</Box>
-			{!isTouchscreen && children.length > nbrOfItemsFittingOnScreen && (
+			{!isTouchscreen && children.length > itemsOnScreen && (
 				<NavButton foward clickHandler={moveForward} />
 			)}
 		</CarouselWrapper>

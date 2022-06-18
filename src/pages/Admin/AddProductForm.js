@@ -60,12 +60,11 @@ const AddProductForm = () => {
 
 		async function addProductToFirebase() {
 			for await (const uploadTask of promiseArr) {
-				getDownloadURL(uploadTask.ref)
-					.then((url) => imgURLs.push(url))
-					.catch((err) => {
-						setUploadSuccess(false);
-						console.error(err);
-					});
+				const url = await getDownloadURL(uploadTask.ref).catch((err) => {
+					setUploadSuccess(false);
+					console.error("Error while getting images URLs:", err);
+				});
+				imgURLs.push(url);
 			}
 
 			const prodObject = {
