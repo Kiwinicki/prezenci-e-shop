@@ -2,7 +2,7 @@ import { Box, IconButton, Stack, styled } from "@mui/material";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-import { useCarousel } from "../hooks/useCarousel";
+import { useCarousel } from "./useCarousel";
 
 const Carousel = ({ children }) => {
 	const { moveBack, moveForward, index, itemsOnScreen, isTouchscreen } = useCarousel(

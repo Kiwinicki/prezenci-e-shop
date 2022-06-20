@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
-import useActualBreakpoint from "../hooks/useActualBreakpoint";
+import useActualBreakpoint from "../../hooks/useActualBreakpoint";
 
 export const useCarousel = (childrenLen) => {
 	const [index, setIndex] = useState(0);
