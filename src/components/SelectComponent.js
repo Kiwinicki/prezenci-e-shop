@@ -6,12 +6,7 @@ const SelectComponent = ({ name, control, requiredAlert = "", optionsArr = [], .
 	<Controller
 		render={({ field, fieldState: { error } }) => (
 			<>
-				<TextField
-					select
-					{...field}
-					// {...(requiredAlert && { required: true })}
-					{...other}
-				>
+				<TextField select {...field} required={!!requiredAlert} {...other}>
 					{optionsArr.map((option, i) => (
 						<MenuItem value={option.key} key={option.id || i}>
 							{option.name}

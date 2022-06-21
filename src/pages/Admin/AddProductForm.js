@@ -21,14 +21,21 @@ import generateSearchKeywords from "../../utils/generateSearchKeywords";
 const AddProductForm = () => {
 	const [uploadSuccess, setUploadSuccess] = useState(null);
 
-	const { handleSubmit, reset, watch, control } = useForm({
+	const {
+		handleSubmit,
+		reset,
+		watch,
+		control,
+		register,
+		formState: { errors },
+	} = useForm({
 		defaultValues: {
 			name: "",
 			price: "",
 			category: "",
 			keywords: "",
 			description: "",
-			images: [], // FIXME: kurde
+			images: null,
 		},
 	});
 	const watchImages = watch("images");
@@ -38,7 +45,6 @@ const AddProductForm = () => {
 
 		const promiseArr = Array.from(images).map((img) => {
 			const imageRef = ref(storage, img.name);
-
 			const uploadTask = uploadBytes(imageRef, img);
 			return uploadTask;
 		});
@@ -56,7 +62,7 @@ const AddProductForm = () => {
 			for await (const uploadTask of promiseArr) {
 				const url = await getDownloadURL(uploadTask.ref).catch((err) => {
 					setUploadSuccess(false);
-					console.error(err);
+					console.error("Error while getting images URLs:", err);
 				});
 				imgURLs.push(url);
 			}
@@ -72,6 +78,7 @@ const AddProductForm = () => {
 			};
 
 			try {
+				console.log(prodObject);
 				addDoc(prodRef, prodObject).then(() => {
 					setUploadSuccess(true);
 
@@ -129,14 +136,14 @@ const AddProductForm = () => {
 					<Textarea name="description" control={control} />
 					<UploadButton
 						name="images"
-						control={control}
+						registerFn={register}
+						errors={errors.images}
 						requiredAlert="Zdjęcie produktu jest wymagane(min. 1)"
 						buttonText="Dodaj zdjęcia produktu"
 						acceptFileTypes="image/*"
 						multiple
 					/>
 					<Box sx={{ display: "flex", gap: 2, flexWrap: "wrap" }}>
-						{console.log(watchImages)}
 						{watchImages &&
 							Array.from(watchImages).map((img, i) => (
 								<Typography

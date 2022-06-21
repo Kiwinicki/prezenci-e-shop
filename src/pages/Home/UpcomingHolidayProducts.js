@@ -7,10 +7,9 @@ import useQueryDocs from "../../hooks/useQueryDocs";
 import { prodRef } from "../../firebase-config";
 
 import Loader from "../../components/Loader";
-import CarouselItem from "../../components/CarouselItem";
-import Carousel from "../../components/Carousel";
+import CarouselItem from "../../components/Carousel/CarouselItem";
+import Carousel from "../../components/Carousel/Carousel";
 import SectionEndButton from "../../components/SectionEndButton";
-import slugifyString from "../../utils/slugifyString";
 
 const UpcomingHolidayProducts = () => {
 	const upcomingHolidayObj = useSelector((state) => state.upcomingHoliday.value);

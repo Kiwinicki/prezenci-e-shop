@@ -19,15 +19,13 @@ const InputComponent = ({
 						{...field}
 						variant="standard"
 						inputProps={inputProps}
-						// FIXME: nie działa połączenie vanila i customowej walidacji
-						// {...(requiredAlert && { required: true })}
 						label={label}
+						required={!!requiredAlert}
 						error={!!error}
 						helperText={requiredAlert}
-						placeholder={placeholder}
+						{...(placeholder && { placeholder: placeholder })}
 						{...other}
 					/>
-					{console.log(!!error)}
 					{error && <WarningAlert message={requiredAlert} />}
 				</>
 			)}

@@ -16,8 +16,8 @@ import { db, prodRef } from "../../firebase-config";
 import SectionWrapper from "../../components/SectionWrapper";
 import SectionHeading from "../../components/SectionHeading";
 import Loader from "../../components/Loader";
-import Carousel from "../../components/Carousel";
-import CarouselItem from "../../components/CarouselItem";
+import Carousel from "../../components/Carousel/Carousel";
+import CarouselItem from "../../components/Carousel/CarouselItem";
 import ChangeAmountButtonGroup from "../../components/ChangeAmountButtonGroup";
 
 import {
